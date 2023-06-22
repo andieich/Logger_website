@@ -1,6 +1,5 @@
 project:
   type: website
-  output-dir: docs
 
 website:
   page-navigation: false
@@ -24,3 +23,5 @@ format:
 number-sections: true
 editor: visual
 
+execute:
+  freeze: auto
