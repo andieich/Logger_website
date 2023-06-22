@@ -1,0 +1,153 @@
+---
+title: "Logger Package"
+author: "Andreas Eich"
+date: last-modified
+date-format: "DD.MM.YYYY"
+---
+
+## Description
+
+This package helps to import Hobo logger files into R. Currenltly supported are the *Pendant* temperature and temperature and light intensity loggers and the *Temperature Pro V2*. The package can be used to combine logger data from multiple deployments at different sites and filters the data using the time of deployment and retrieval. Basic plotting allows error checking.
+
+The current version of the package is 0.1 and was published on 21.06.2023.
+
+## Prerequisites
+
+### File Export
+
+The `.hobo` files have to be exported to `.csv` using [HOBOware](https://www.onsetcomp.com/support/help-center/software/hoboware "HOBOware download"). With the paid version HOBOware Pro it is possible to bulk export multiple `.hobo` files (`Tools` \> `Bulk File Export`) . The export settings can be changed in the HOBOware settings in the "General" tab in "Export settings" and have to be as follows:
+
+| Name                                                       | Setting               |
+|------------------------------------------|-----------------|
+| Export file type                                           | `Text (.txt or .csv)` |
+| Export table data column separator                         | `Comma (,)`           |
+| Include line number column                                 | `No`                  |
+| Include plot title in header                               | `No`                  |
+| Always show fractional seconds                             | `No`                  |
+| Separate date and time into two columns                    | `No`                  |
+| No quotes or commas in headings, properties in parenthesis | `No`                  |
+| Include logger serial number                               | `Yes`                 |
+| Include sensor serial number or label if available         | `Yes`                 |
+| Date formal                                                | `Y M D`               |
+| Date seperator                                             | `Dash (-)`            |
+| Time format                                                | `24-Hour`             |
+| Positive number format                                     | `1,234.56`            |
+| Negative number format                                     | `-123`                |
+| Include plot details in exported file                      | `No`                  |
+
+Additionally, the computer language has to be English and HOBOware has to use SI units.
+
+I store the exported `.csv` files in the RStudio project folder under `/data/raw_csv`. I recommend to also keep a copy of the original `.hobo` files, e.g. under `/data/raw_hobo`.
+
+### Logger Metadata
+
+An Excel table can be used to store information about the logger, e.g. to which site it was deployed, at what depth, and when it was deployed and retrieved. [Here](logger_info_example.xlsx) is an example for such a table. This file contains two tabs: `active` for the loggers that are currently deployed and `retrieved` for the loggers that were already retrieved. Necessary columns are
+
+-    `filename`: The file name of the `.csv` file. I add the date of the retrieval before the label that was set in HOBOware, e.g. `2023_06_01_Site1_Depth2.csv`.
+
+-   `deployed`: Date and time of the deployment of the logger. In Excel, use "Custom" format with type `TT.MM.JJ hh:mm`.
+
+-   `retrieved`: Date and time of the retrieval of the logger. The cell format should be as for `deployed`.
+
+The other information is optional but adding the site name, depth, battery state, logged parameters, logging interval, etc. will help to keep track of the loggers. Additionally, I use the logger serial number (column `SN`) as an ID.
+
+I store this Excel file in the RStudio project folder under `/data`.
+
+## Install Package
+
+This can be done with the `install_github()` function of the `devtools` package:
+
+```{r}
+#| output: false
+
+library(devtools)
+devtools::install_github("andieich/Logger")
+```
+
+Now, the package can be loaded:
+
+```{r}
+
+library(Logger)
+```
+
+## Use Package
+
+### Summary
+
+In short, the logger metadata from the Excel file is used to import all logger `.csv` files, filter the data by the time of deployment and retrieval and adds the additional metadata, e.g. site name, depth, etc. All imported files will be combined to a `data.frame` in the "long" format so it can be easily used with e.g. `ggplot()`. Finally, some ways to visualize and summarize the data are shown.
+
+### Load packages
+
+These packages will be used in this example:
+
+```{r}
+#| output: false
+
+library(tidyverse)  # for dplyr, ggplot, magrittr, etc.
+library(lubridate)  # to facilitate date formatting
+library(here)       # for relative file paths
+library(kableExtra) # for HTML tables
+```
+
+### Read Logger Metadata
+
+The Excel file containing information on the deployment and retrieval times of the logger has to be imported to R. To do so, `read_loggerinfo()` can be used.
+
+```{r}
+loggerinfo <- read_loggerinfo(here::here("data/logger_info.xlsx"))
+
+head(loggerinfo, n = 3) %>% 
+  kable() %>%
+  kable_styling(font_size = 10, html_font = "arial", bootstrap_options = "striped")
+```
+
+The data of all loggers in this table will be imported and merged in the next step. If you want, you can therefore filter `loggerinfo`, e.g. by site
+
+```{r}
+loggerinfo_sel1 <- loggerinfo %>% 
+  dplyr::filter(site == "E2B")
+
+head(loggerinfo_sel1, n = 3) %>% 
+  kable() %>%
+  kable_styling(font_size = 10, html_font = "arial", bootstrap_options = "striped")
+```
+
+or by the deployment time:
+
+```{r}
+loggerinfo_sel2 <- loggerinfo %>% 
+  dplyr::filter(deployed >= lubridate::as_date("2023-03-08") )
+
+head(loggerinfo_sel2, n = 3) %>% 
+  kable() %>%
+  kable_styling(font_size = 10, html_font = "arial", bootstrap_options = "striped")
+```
+
+### Import logger `.csv` files
+
+Now, the actual data can be imported. To do so, `loggerinfo`, that was just imported, has to be provided to the `read_loggerfiles()` function:
+
+```{r}
+#| eval: false
+
+read_loggerfiles(loggerinfo, check_SN = FALSE)
+```
+
+The function
+
+If you did not use the serial number (SN) in `loggerinfo` or do not want to chack the SN provided in `loggerinfo` against the SN stored in the logger `.csv` file, set `check_SN` to `FALSE`:
+
+```{r}
+#| eval: false
+
+read_loggerfiles(loggerinfo, check_SN = FALSE)
+```
+
+If your logger `.csv` files are not stored in `/data/raw_csv`, you have to specify the folder:
+
+```{r}
+#| eval: false
+
+read_loggerfiles(loggerinfo, folder = "your_folder")
+```

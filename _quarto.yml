@@ -1,0 +1,25 @@
+project:
+  type: website
+
+website:
+  page-navigation: false
+  title: "Logger"
+  
+  page-footer: 
+    right: "This page is build with [Quarto](https://quarto.org/)."
+    left: "&copy; CC-By Andreas Eich, 2023"
+        
+format:
+  html:
+    theme:
+      light: [cosmo, theme.scss]
+    code-copy: true
+    code-overflow: wrap
+    toc: true
+    toc-location: left
+    toc-title: "Content"
+    mainfont: "Gill Sans"
+  
+number-sections: true
+editor: visual
+
