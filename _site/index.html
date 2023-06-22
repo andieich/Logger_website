@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.2.269">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
 <meta name="author" content="Andreas Eich">
-
 <title>Logger - Logger Package</title>
 <style>
 code{white-space: pre-wrap;}
@@ -86,7 +83,6 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
-
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -101,8 +97,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -120,50 +115,40 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit"
   }
-}</script>
-
-<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
-
-
+}</script><script src="site_libs/kePrint-0.0.1/kePrint.js"></script><link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 </head>
-
 <body class="floating">
 
 <div id="quarto-search-results"></div>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
-    <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Content</h2>
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto"><nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Content</h2>
    
   <ul>
-  <li><a href="#description" id="toc-description" class="nav-link active" data-scroll-target="#description"><span class="toc-section-number">1</span>  Description</a></li>
-  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites"><span class="toc-section-number">2</span>  Prerequisites</a>
+<li><a href="#description" id="toc-description" class="nav-link active" data-scroll-target="#description"><span class="toc-section-number">1</span>  Description</a></li>
+  <li>
+<a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites"><span class="toc-section-number">2</span>  Prerequisites</a>
   <ul class="collapse">
-  <li><a href="#file-export" id="toc-file-export" class="nav-link" data-scroll-target="#file-export"><span class="toc-section-number">2.1</span>  File Export</a></li>
+<li><a href="#file-export" id="toc-file-export" class="nav-link" data-scroll-target="#file-export"><span class="toc-section-number">2.1</span>  File Export</a></li>
   <li><a href="#logger-metadata" id="toc-logger-metadata" class="nav-link" data-scroll-target="#logger-metadata"><span class="toc-section-number">2.2</span>  Logger Metadata</a></li>
-  </ul></li>
+  </ul>
+</li>
   <li><a href="#install-package" id="toc-install-package" class="nav-link" data-scroll-target="#install-package"><span class="toc-section-number">3</span>  Install Package</a></li>
-  <li><a href="#use-package" id="toc-use-package" class="nav-link" data-scroll-target="#use-package"><span class="toc-section-number">4</span>  Use Package</a>
+  <li>
+<a href="#use-package" id="toc-use-package" class="nav-link" data-scroll-target="#use-package"><span class="toc-section-number">4</span>  Use Package</a>
   <ul class="collapse">
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="toc-section-number">4.1</span>  Summary</a></li>
+<li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="toc-section-number">4.1</span>  Summary</a></li>
   <li><a href="#load-packages" id="toc-load-packages" class="nav-link" data-scroll-target="#load-packages"><span class="toc-section-number">4.2</span>  Load packages</a></li>
   <li><a href="#read-logger-metadata" id="toc-read-logger-metadata" class="nav-link" data-scroll-target="#read-logger-metadata"><span class="toc-section-number">4.3</span>  Read Logger Metadata</a></li>
   <li><a href="#import-logger-.csv-files" id="toc-import-logger-.csv-files" class="nav-link" data-scroll-target="#import-logger-.csv-files"><span class="toc-section-number">4.4</span>  Import logger <code>.csv</code> files</a></li>
-  </ul></li>
   </ul>
-</nav>
-</nav>
-<!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+</li>
+  </ul></nav>
+</nav><!-- margin-sidebar --><div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title">Logger Package</h1>
 </div>
 
@@ -181,7 +166,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">21.06.2023</p>
+      <p class="date">22.06.2023</p>
     </div>
   </div>
   
@@ -189,28 +174,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </div>
   
 
-</header>
-
-<section id="description" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="description"><span class="header-section-number">1</span> Description</h2>
-<p>This package helps to import Hobo logger files (Pendant Light &amp; Temperature, Temperature Pro V2) into R. It can be used to combine logger data from multiple deployment at multiple sites and filters the data using the time of deployment and retrieval. Basic plotting allows error checking.</p>
-</section>
-<section id="prerequisites" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="prerequisites"><span class="header-section-number">2</span> Prerequisites</h2>
-<section id="file-export" class="level3" data-number="2.1">
-<h3 data-number="2.1" class="anchored" data-anchor-id="file-export"><span class="header-section-number">2.1</span> File Export</h3>
-<p>You exported the <code>.hobo</code> files using <a href="https://www.onsetcomp.com/support/help-center/software/hoboware" title="HOBOware download">HOBOware</a> as <code>.csv</code>. With the paid version HOBOware Pro it is possible to bulk export multiple <code>.hobo</code> files (Tools &gt; Bulk File Export) . The export settings can be changed in the HOBOware settings in the “General” tab in “Export settings” and should be as follows:</p>
+</header><section id="description" class="level2" data-number="1"><h2 data-number="1" class="anchored" data-anchor-id="description">
+<span class="header-section-number">1</span> Description</h2>
+<p>This package helps to import Hobo logger files into R. Currenltly supported are the <em>Pendant</em> temperature and temperature and light intensity loggers and the <em>Temperature Pro V2</em>. The package can be used to combine logger data from multiple deployments at different sites and filters the data using the time of deployment and retrieval. Basic plotting allows error checking.</p>
+<p>The current version of the package is 0.1 and was published on 21.06.2023.</p>
+</section><section id="prerequisites" class="level2" data-number="2"><h2 data-number="2" class="anchored" data-anchor-id="prerequisites">
+<span class="header-section-number">2</span> Prerequisites</h2>
+<section id="file-export" class="level3" data-number="2.1"><h3 data-number="2.1" class="anchored" data-anchor-id="file-export">
+<span class="header-section-number">2.1</span> File Export</h3>
+<p>The <code>.hobo</code> files have to be exported to <code>.csv</code> using <a href="https://www.onsetcomp.com/support/help-center/software/hoboware" title="HOBOware download">HOBOware</a>. With the paid version HOBOware Pro it is possible to bulk export multiple <code>.hobo</code> files (<code>Tools</code> &gt; <code>Bulk File Export</code>) . The export settings can be changed in the HOBOware settings in the “General” tab in “Export settings” and have to be as follows:</p>
 <table class="table">
 <colgroup>
-<col style="width: 71%">
-<col style="width: 28%">
+<col style="width: 72%">
+<col style="width: 27%">
 </colgroup>
-<thead>
-<tr class="header">
+<thead><tr class="header">
 <th>Name</th>
 <th>Setting</th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr class="odd">
 <td>Export file type</td>
@@ -275,10 +256,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>Additionally, the computer language has to be English and HOBOware has to use SI units.</p>
-<p>I store the exported <code>.csv</code> files in the RStudio project folder under <code>/data/raw_csv</code>.</p>
-</section>
-<section id="logger-metadata" class="level3" data-number="2.2">
-<h3 data-number="2.2" class="anchored" data-anchor-id="logger-metadata"><span class="header-section-number">2.2</span> Logger Metadata</h3>
+<p>I store the exported <code>.csv</code> files in the RStudio project folder under <code>/data/raw_csv</code>. I recommend to also keep a copy of the original <code>.hobo</code> files, e.g.&nbsp;under <code>/data/raw_hobo</code>.</p>
+</section><section id="logger-metadata" class="level3" data-number="2.2"><h3 data-number="2.2" class="anchored" data-anchor-id="logger-metadata">
+<span class="header-section-number">2.2</span> Logger Metadata</h3>
 <p>An Excel table can be used to store information about the logger, e.g.&nbsp;to which site it was deployed, at what depth, and when it was deployed and retrieved. <a href="logger_info_example.xlsx">Here</a> is an example for such a table. This file contains two tabs: <code>active</code> for the loggers that are currently deployed and <code>retrieved</code> for the loggers that were already retrieved. Necessary columns are</p>
 <ul>
 <li><p><code>filename</code>: The file name of the <code>.csv</code> file. I add the date of the retrieval before the label that was set in HOBOware, e.g.&nbsp;<code>2023_06_01_Site1_Depth2.csv</code>.</p></li>
@@ -287,51 +267,45 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>The other information is optional but adding the site name, depth, battery state, logged parameters, logging interval, etc. will help to keep track of the loggers. Additionally, I use the logger serial number (column <code>SN</code>) as an ID.</p>
 <p>I store this Excel file in the RStudio project folder under <code>/data</code>.</p>
-</section>
-</section>
-<section id="install-package" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="install-package"><span class="header-section-number">3</span> Install Package</h2>
-<p>This can be done with the <code>install_github()</code> function of the <code>devtools</code> package:</p>
+</section></section><section id="install-package" class="level2" data-number="3"><h2 data-number="3" class="anchored" data-anchor-id="install-package">
+<span class="header-section-number">3</span> Install Package</h2>
+<p>This can be done with the <code><a href="https://remotes.r-lib.org/reference/install_github.html">install_github()</a></code> function of the <code>devtools</code> package:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(devtools)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"andieich/Logger"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/">devtools</a></span><span class="op">)</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"andieich/Logger"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now, the package can be loaded:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Logger)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/andieich/Logger">Logger</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="use-package" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="use-package"><span class="header-section-number">4</span> Use Package</h2>
-<section id="summary" class="level3" data-number="4.1">
-<h3 data-number="4.1" class="anchored" data-anchor-id="summary"><span class="header-section-number">4.1</span> Summary</h3>
-<p>In short, the logger metadata from the Excel file is used to import all logger <code>.csv</code> files, filter the data by the time of deployment and retrieval and adds the additional metadata, e.g.&nbsp;site name, depth, etc. All imported files will be combined to a <code>data.frame</code> in the “long” format so it can be easily used with e.g.&nbsp;<code>ggplot()</code>. Finally, some ways to visualize and summarize the data are shown.</p>
-</section>
-<section id="load-packages" class="level3" data-number="4.2">
-<h3 data-number="4.2" class="anchored" data-anchor-id="load-packages"><span class="header-section-number">4.2</span> Load packages</h3>
+</section><section id="use-package" class="level2" data-number="4"><h2 data-number="4" class="anchored" data-anchor-id="use-package">
+<span class="header-section-number">4</span> Use Package</h2>
+<section id="summary" class="level3" data-number="4.1"><h3 data-number="4.1" class="anchored" data-anchor-id="summary">
+<span class="header-section-number">4.1</span> Summary</h3>
+<p>In short, the logger metadata from the Excel file is used to import all logger <code>.csv</code> files, filter the data by the time of deployment and retrieval and adds the additional metadata, e.g.&nbsp;site name, depth, etc. All imported files will be combined to a <code>data.frame</code> in the “long” format so it can be easily used with e.g.&nbsp;<code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot()</a></code>. Finally, some ways to visualize and summarize the data are shown.</p>
+</section><section id="load-packages" class="level3" data-number="4.2"><h3 data-number="4.2" class="anchored" data-anchor-id="load-packages">
+<span class="header-section-number">4.2</span> Load packages</h3>
 <p>These packages will be used in this example:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)  <span class="co"># for dplyr, ggplot, magrittr, etc.</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)  <span class="co"># to facilitate date formatting</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)       <span class="co"># for relative file paths</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra) <span class="co"># for HTML tables</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>  <span class="co"># for dplyr, ggplot, magrittr, etc.</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org">lubridate</a></span><span class="op">)</span>  <span class="co"># to facilitate date formatting</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://here.r-lib.org/">here</a></span><span class="op">)</span>       <span class="co"># for relative file paths</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="read-logger-metadata" class="level3" data-number="4.3">
-<h3 data-number="4.3" class="anchored" data-anchor-id="read-logger-metadata"><span class="header-section-number">4.3</span> Read Logger Metadata</h3>
-<p>The Excel file containing information on the deployment and retrieval times of the logger has to be imported to R. To do so, <code>read_loggerinfo()</code> can be used.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>loggerinfo <span class="ot">&lt;-</span> <span class="fu">read_loggerinfo</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/logger_info.xlsx"</span>))</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(loggerinfo, <span class="at">n =</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">font_size =</span> <span class="dv">10</span>, <span class="at">html_font =</span> <span class="st">"arial"</span>, <span class="at">bootstrap_options =</span> <span class="st">"striped"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+</section><section id="read-logger-metadata" class="level3" data-number="4.3"><h3 data-number="4.3" class="anchored" data-anchor-id="read-logger-metadata">
+<span class="header-section-number">4.3</span> Read Logger Metadata</h3>
+<p>The Excel file containing information on the deployment and retrieval times of the logger has to be imported to R. To do so, <code><a href="https://rdrr.io/pkg/Logger/man/read_loggerinfo.html">read_loggerinfo()</a></code> can be used.</p>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">loggerinfo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Logger/man/read_loggerinfo.html">read_loggerinfo</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"data/logger_info.xlsx"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
 <div class="cell-output-display">
 
-<table class="table table-striped" style="font-size: 10px; font-family: arial; margin-left: auto; margin-right: auto;">
- <thead>
-  <tr>
-   <th style="text-align:right;"> SN </th>
+<table class="table table-striped" style="font-size: 12px; font-family: arial; margin-left: auto; margin-right: auto;">
+<thead><tr>
+<th style="text-align:right;"> SN </th>
    <th style="text-align:left;"> type </th>
    <th style="text-align:left;"> site </th>
    <th style="text-align:left;"> habitat </th>
@@ -351,11 +325,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    <th style="text-align:left;"> filename </th>
    <th style="text-align:left;"> redeployed </th>
    <th style="text-align:left;"> comment </th>
-  </tr>
- </thead>
+  </tr></thead>
 <tbody>
-  <tr>
-   <td style="text-align:right;"> 21086840 </td>
+<tr>
+<td style="text-align:right;"> 21086840 </td>
    <td style="text-align:left;"> Pendant </td>
    <td style="text-align:left;"> E2B </td>
    <td style="text-align:left;"> deep </td>
@@ -376,8 +349,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    <td style="text-align:left;"> no </td>
    <td style="text-align:left;"> NA </td>
   </tr>
-  <tr>
-   <td style="text-align:right;"> 21086844 </td>
+<tr>
+<td style="text-align:right;"> 21086844 </td>
    <td style="text-align:left;"> Pendant </td>
    <td style="text-align:left;"> E2B </td>
    <td style="text-align:left;"> shallow </td>
@@ -398,8 +371,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    <td style="text-align:left;"> no </td>
    <td style="text-align:left;"> NA </td>
   </tr>
-  <tr>
-   <td style="text-align:right;"> 21103103 </td>
+<tr>
+<td style="text-align:right;"> 21103103 </td>
    <td style="text-align:left;"> Pendant </td>
    <td style="text-align:left;"> Temae </td>
    <td style="text-align:left;"> deep </td>
@@ -422,23 +395,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </tr>
 </tbody>
 </table>
-
 </div>
 </div>
 <p>The data of all loggers in this table will be imported and merged in the next step. If you want, you can therefore filter <code>loggerinfo</code>, e.g.&nbsp;by site</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>loggerinfo_sel1 <span class="ot">&lt;-</span> loggerinfo <span class="sc">%&gt;%</span> </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(site <span class="sc">==</span> <span class="st">"E2B"</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(loggerinfo_sel1, <span class="at">n =</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">font_size =</span> <span class="dv">10</span>, <span class="at">html_font =</span> <span class="st">"arial"</span>, <span class="at">bootstrap_options =</span> <span class="st">"striped"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">loggerinfo_sel1</span> <span class="op">&lt;-</span> <span class="va">loggerinfo</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">site</span> <span class="op">==</span> <span class="st">"E2B"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
 <div class="cell-output-display">
 
-<table class="table table-striped" style="font-size: 10px; font-family: arial; margin-left: auto; margin-right: auto;">
- <thead>
-  <tr>
-   <th style="text-align:right;"> SN </th>
+<table class="table table-striped" style="font-size: 12px; font-family: arial; margin-left: auto; margin-right: auto;">
+<thead><tr>
+<th style="text-align:right;"> SN </th>
    <th style="text-align:left;"> type </th>
    <th style="text-align:left;"> site </th>
    <th style="text-align:left;"> habitat </th>
@@ -458,11 +427,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    <th style="text-align:left;"> filename </th>
    <th style="text-align:left;"> redeployed </th>
    <th style="text-align:left;"> comment </th>
-  </tr>
- </thead>
+  </tr></thead>
 <tbody>
-  <tr>
-   <td style="text-align:right;"> 21086840 </td>
+<tr>
+<td style="text-align:right;"> 21086840 </td>
    <td style="text-align:left;"> Pendant </td>
    <td style="text-align:left;"> E2B </td>
    <td style="text-align:left;"> deep </td>
@@ -483,8 +451,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    <td style="text-align:left;"> no </td>
    <td style="text-align:left;"> NA </td>
   </tr>
-  <tr>
-   <td style="text-align:right;"> 21086844 </td>
+<tr>
+<td style="text-align:right;"> 21086844 </td>
    <td style="text-align:left;"> Pendant </td>
    <td style="text-align:left;"> E2B </td>
    <td style="text-align:left;"> shallow </td>
@@ -507,23 +475,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </tr>
 </tbody>
 </table>
-
 </div>
 </div>
 <p>or by the deployment time:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>loggerinfo_sel2 <span class="ot">&lt;-</span> loggerinfo <span class="sc">%&gt;%</span> </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(deployed <span class="sc">&gt;=</span> lubridate<span class="sc">::</span><span class="fu">as_date</span>(<span class="st">"2023-03-08"</span>) )</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(loggerinfo_sel2, <span class="at">n =</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">font_size =</span> <span class="dv">10</span>, <span class="at">html_font =</span> <span class="st">"arial"</span>, <span class="at">bootstrap_options =</span> <span class="st">"striped"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">loggerinfo_sel2</span> <span class="op">&lt;-</span> <span class="va">loggerinfo</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">deployed</span> <span class="op">&gt;=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/as_date.html">as_date</a></span><span class="op">(</span><span class="st">"2023-03-08"</span><span class="op">)</span> <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
 <div class="cell-output-display">
 
-<table class="table table-striped" style="font-size: 10px; font-family: arial; margin-left: auto; margin-right: auto;">
- <thead>
-  <tr>
-   <th style="text-align:right;"> SN </th>
+<table class="table table-striped" style="font-size: 12px; font-family: arial; margin-left: auto; margin-right: auto;">
+<thead><tr>
+<th style="text-align:right;"> SN </th>
    <th style="text-align:left;"> type </th>
    <th style="text-align:left;"> site </th>
    <th style="text-align:left;"> habitat </th>
@@ -543,11 +507,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    <th style="text-align:left;"> filename </th>
    <th style="text-align:left;"> redeployed </th>
    <th style="text-align:left;"> comment </th>
-  </tr>
- </thead>
+  </tr></thead>
 <tbody>
-  <tr>
-   <td style="text-align:right;"> 21086844 </td>
+<tr>
+<td style="text-align:right;"> 21086844 </td>
    <td style="text-align:left;"> Pendant </td>
    <td style="text-align:left;"> E2B </td>
    <td style="text-align:left;"> shallow </td>
@@ -568,8 +531,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    <td style="text-align:left;"> no </td>
    <td style="text-align:left;"> NA </td>
   </tr>
-  <tr>
-   <td style="text-align:right;"> 21103103 </td>
+<tr>
+<td style="text-align:right;"> 21103103 </td>
    <td style="text-align:left;"> Pendant </td>
    <td style="text-align:left;"> Temae </td>
    <td style="text-align:left;"> deep </td>
@@ -590,8 +553,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    <td style="text-align:left;"> no </td>
    <td style="text-align:left;"> NA </td>
   </tr>
-  <tr>
-   <td style="text-align:right;"> 21236989 </td>
+<tr>
+<td style="text-align:right;"> 21236989 </td>
    <td style="text-align:left;"> Pendant </td>
    <td style="text-align:left;"> Temae </td>
    <td style="text-align:left;"> deep </td>
@@ -614,31 +577,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </tr>
 </tbody>
 </table>
-
 </div>
 </div>
-</section>
-<section id="import-logger-.csv-files" class="level3" data-number="4.4">
-<h3 data-number="4.4" class="anchored" data-anchor-id="import-logger-.csv-files"><span class="header-section-number">4.4</span> Import logger <code>.csv</code> files</h3>
-<p>Now, the actual data can be imported. To do so, <code>loggerinfo</code>, that was just imported, has to be provided to the <code>read_loggerfiles()</code> function:</p>
+</section><section id="import-logger-.csv-files" class="level3" data-number="4.4"><h3 data-number="4.4" class="anchored" data-anchor-id="import-logger-.csv-files">
+<span class="header-section-number">4.4</span> Import logger <code>.csv</code> files</h3>
+<p>Now, the actual data can be imported. To do so, <code>loggerinfo</code>, that was just imported, has to be provided to the <code><a href="https://rdrr.io/pkg/Logger/man/read_loggerfiles.html">read_loggerfiles()</a></code> function:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_loggerfiles</span>(loggerinfo, <span class="at">check_SN =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/Logger/man/read_loggerfiles.html">read_loggerfiles</a></span><span class="op">(</span><span class="va">loggerinfo</span>, check_SN <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>The function</p>
 <p>If you did not use the serial number (SN) in <code>loggerinfo</code> or do not want to chack the SN provided in <code>loggerinfo</code> against the SN stored in the logger <code>.csv</code> file, set <code>check_SN</code> to <code>FALSE</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_loggerfiles</span>(loggerinfo, <span class="at">check_SN =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/Logger/man/read_loggerfiles.html">read_loggerfiles</a></span><span class="op">(</span><span class="va">loggerinfo</span>, check_SN <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>If your logger <code>.csv</code> files are not stored in <code>/data/raw_csv</code>, you have to specify the folder:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_loggerfiles</span>(loggerinfo, <span class="at">folder =</span> <span class="st">"your_folder"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/Logger/man/read_loggerfiles.html">read_loggerfiles</a></span><span class="op">(</span><span class="va">loggerinfo</span>, folder <span class="op">=</span> <span class="st">"your_folder"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
-</section>
-</section>
-
-</main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");

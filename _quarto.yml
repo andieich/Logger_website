@@ -11,10 +11,10 @@ website:
         
 format:
   html:
-    theme:
-      light: [cosmo, theme.scss]
+    theme: theme.scss
     code-copy: true
     code-overflow: wrap
+    code-link: true
     toc: true
     toc-location: left
     toc-title: "Content"

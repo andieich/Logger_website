@@ -18,7 +18,7 @@ The current version of the package is 0.1 and was published on 21.06.2023.
 The `.hobo` files have to be exported to `.csv` using [HOBOware](https://www.onsetcomp.com/support/help-center/software/hoboware "HOBOware download"). With the paid version HOBOware Pro it is possible to bulk export multiple `.hobo` files (`Tools` \> `Bulk File Export`) . The export settings can be changed in the HOBOware settings in the "General" tab in "Export settings" and have to be as follows:
 
 | Name                                                       | Setting               |
-|------------------------------------------|-----------------|
+|------------------------------------------------------------|-----------------------|
 | Export file type                                           | `Text (.txt or .csv)` |
 | Export table data column separator                         | `Comma (,)`           |
 | Include line number column                                 | `No`                  |
@@ -43,7 +43,7 @@ I store the exported `.csv` files in the RStudio project folder under `/data/raw
 
 An Excel table can be used to store information about the logger, e.g. to which site it was deployed, at what depth, and when it was deployed and retrieved. [Here](logger_info_example.xlsx) is an example for such a table. This file contains two tabs: `active` for the loggers that are currently deployed and `retrieved` for the loggers that were already retrieved. Necessary columns are
 
--    `filename`: The file name of the `.csv` file. I add the date of the retrieval before the label that was set in HOBOware, e.g. `2023_06_01_Site1_Depth2.csv`.
+-   `filename`: The file name of the `.csv` file. I add the date of the retrieval before the label that was set in HOBOware, e.g. `2023_06_01_Site1_Depth2.csv`.
 
 -   `deployed`: Date and time of the deployment of the logger. In Excel, use "Custom" format with type `TT.MM.JJ hh:mm`.
 
@@ -59,6 +59,7 @@ This can be done with the `install_github()` function of the `devtools` package:
 
 ```{r}
 #| output: false
+#| eval: false
 
 library(devtools)
 devtools::install_github("andieich/Logger")
@@ -87,6 +88,13 @@ These packages will be used in this example:
 library(tidyverse)  # for dplyr, ggplot, magrittr, etc.
 library(lubridate)  # to facilitate date formatting
 library(here)       # for relative file paths
+```
+
+```{r}
+#| echo: false
+#| output: false
+
+#silently load kableExtra
 library(kableExtra) # for HTML tables
 ```
 
@@ -97,9 +105,14 @@ The Excel file containing information on the deployment and retrieval times of t
 ```{r}
 loggerinfo <- read_loggerinfo(here::here("data/logger_info.xlsx"))
 
+```
+
+```{r}
+#| echo: false
+
 head(loggerinfo, n = 3) %>% 
   kable() %>%
-  kable_styling(font_size = 10, html_font = "arial", bootstrap_options = "striped")
+  kable_styling(font_size = 12, html_font = "arial", bootstrap_options = "striped")
 ```
 
 The data of all loggers in this table will be imported and merged in the next step. If you want, you can therefore filter `loggerinfo`, e.g. by site
@@ -108,9 +121,14 @@ The data of all loggers in this table will be imported and merged in the next st
 loggerinfo_sel1 <- loggerinfo %>% 
   dplyr::filter(site == "E2B")
 
+```
+
+```{r}
+#| echo: false
+
 head(loggerinfo_sel1, n = 3) %>% 
   kable() %>%
-  kable_styling(font_size = 10, html_font = "arial", bootstrap_options = "striped")
+  kable_styling(font_size = 12, html_font = "arial", bootstrap_options = "striped")
 ```
 
 or by the deployment time:
@@ -119,9 +137,14 @@ or by the deployment time:
 loggerinfo_sel2 <- loggerinfo %>% 
   dplyr::filter(deployed >= lubridate::as_date("2023-03-08") )
 
+```
+
+```{r}
+#| echo: false
+
 head(loggerinfo_sel2, n = 3) %>% 
   kable() %>%
-  kable_styling(font_size = 10, html_font = "arial", bootstrap_options = "striped")
+  kable_styling(font_size = 12, html_font = "arial", bootstrap_options = "striped")
 ```
 
 ### Import logger `.csv` files
