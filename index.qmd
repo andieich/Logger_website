@@ -1,5 +1,5 @@
 ---
-title: "Logger Package 1"
+title: "Logger Package Test"
 author: "Andreas Eich"
 date: last-modified
 date-format: "DD.MM.YYYY"
