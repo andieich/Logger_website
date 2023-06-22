@@ -1,5 +1,5 @@
 ---
-title: "Logger Package Test 10:30"
+title: "Logger Package Test 10:51"
 author: "Andreas Eich"
 date: last-modified
 date-format: "DD.MM.YYYY"
@@ -18,7 +18,7 @@ The current version of the package is 0.1 and was published on 21.06.2023.
 The `.hobo` files have to be exported to `.csv` using [HOBOware](https://www.onsetcomp.com/support/help-center/software/hoboware "HOBOware download"). With the paid version HOBOware Pro it is possible to bulk export multiple `.hobo` files (`Tools` \> `Bulk File Export`) . The export settings can be changed in the HOBOware settings in the "General" tab in "Export settings" and have to be as follows:
 
 | Name                                                       | Setting               |
-|------------------------------------------------------------|-----------------------|
+|---------------------------------------------------|---------------------|
 | Export file type                                           | `Text (.txt or .csv)` |
 | Export table data column separator                         | `Comma (,)`           |
 | Include line number column                                 | `No`                  |
