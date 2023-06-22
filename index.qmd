@@ -112,7 +112,7 @@ loggerinfo <- read_loggerinfo(here::here("data/logger_info.xlsx"))
 
 head(loggerinfo, n = 3) %>% 
   kable() %>%
-  kable_styling(font_size = 12, html_font = "arial", bootstrap_options = "striped")
+  kable_styling(font_size = 13, html_font = "arial", bootstrap_options = "striped")
 ```
 
 The data of all loggers in this table will be imported and merged in the next step. If you want, you can therefore filter `loggerinfo`, e.g. by site
