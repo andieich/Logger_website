@@ -1,0 +1,1 @@
+Sitemap: https://github.com/andieich/Logger_website/sitemap.xml
