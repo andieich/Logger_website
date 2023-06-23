@@ -1,5 +1,5 @@
 ---
-title: "Logger Package Test 11:00"
+title: "Logger Package"
 author: "Andreas Eich"
 date: last-modified
 date-format: "DD.MM.YYYY"
@@ -9,7 +9,7 @@ date-format: "DD.MM.YYYY"
 
 This package helps to import Hobo logger files into R. Currenltly supported are the *Pendant* temperature and temperature and light intensity loggers and the *Temperature Pro V2*. The package can be used to combine logger data from multiple deployments at different sites and filters the data using the time of deployment and retrieval. Basic plotting allows error checking.
 
-The current version of the package is 0.1 and was published on 21.06.2023.
+The current version of the package is 0.1 and was published on 22.06.2023.
 
 ## Prerequisites
 
@@ -152,9 +152,16 @@ head(loggerinfo_sel2, n = 3) %>%
 Now, the actual data can be imported. To do so, `loggerinfo`, that was just imported, has to be provided to the `read_loggerfiles()` function:
 
 ```{r}
-#| eval: false
 
-read_loggerfiles(loggerinfo, check_SN = FALSE)
+loggerdata <- read_loggerfiles(loggerinfo)
+```
+
+```{r}
+#| echo: false
+
+head(loggerdata, n = 10) %>% 
+  kable() %>%
+  kable_styling(font_size = 10, html_font = "arial", bootstrap_options = "striped")
 ```
 
 The function
