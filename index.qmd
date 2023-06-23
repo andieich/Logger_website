@@ -18,7 +18,7 @@ The current version of the package is 0.1 and was published on 22.06.2023.
 The `.hobo` files have to be exported to `.csv` using [HOBOware](https://www.onsetcomp.com/support/help-center/software/hoboware "HOBOware download"). With the paid version HOBOware Pro it is possible to bulk export multiple `.hobo` files (`Tools` \> `Bulk File Export`) . The export settings can be changed in the HOBOware settings in the "General" tab in "Export settings" and have to be as follows:
 
 | Name                                                       | Setting               |
-|---------------------------------------------------|---------------------|
+|------------------------------------------------------------|-----------------------|
 | Export file type                                           | `Text (.txt or .csv)` |
 | Export table data column separator                         | `Comma (,)`           |
 | Include line number column                                 | `No`                  |
@@ -94,8 +94,19 @@ library(here)       # for relative file paths
 #| echo: false
 #| output: false
 
-#silently load kableExtra
-library(kableExtra) # for HTML tables
+#silently load gt
+library(gt) # for HTML tables
+
+# and make own theme
+
+make_tabe <- function(data,
+                    ...){
+  gt(data) %>% 
+  opt_stylize(style = 6, 
+              color = 'gray') %>% 
+  tab_options(table.font.size = 10, 
+              table.font.names = "helvetica") 
+}
 ```
 
 ### Read Logger Metadata
@@ -111,8 +122,7 @@ loggerinfo <- read_loggerinfo(here::here("data/logger_info.xlsx"))
 #| echo: false
 
 head(loggerinfo, n = 3) %>% 
-  kable() %>%
-  kable_styling(font_size = 13, html_font = "arial", bootstrap_options = "striped")
+  make_tabe() 
 ```
 
 The data of all loggers in this table will be imported and merged in the next step. If you want, you can therefore filter `loggerinfo`, e.g. by site
@@ -127,8 +137,13 @@ loggerinfo_sel1 <- loggerinfo %>%
 #| echo: false
 
 head(loggerinfo_sel1, n = 3) %>% 
-  kable() %>%
-  kable_styling(font_size = 12, html_font = "arial", bootstrap_options = "striped")
+  make_tabe() 
+```
+
+```{r}
+head(loggerinfo_sel1, n = 3) %>% 
+  make_tabe()
+  
 ```
 
 or by the deployment time:
@@ -143,8 +158,7 @@ loggerinfo_sel2 <- loggerinfo %>%
 #| echo: false
 
 head(loggerinfo_sel2, n = 3) %>% 
-  kable() %>%
-  kable_styling(font_size = 12, html_font = "arial", bootstrap_options = "striped")
+  make_tabe() 
 ```
 
 ### Import logger `.csv` files
@@ -160,8 +174,7 @@ loggerdata <- read_loggerfiles(loggerinfo)
 #| echo: false
 
 head(loggerdata, n = 10) %>% 
-  kable() %>%
-  kable_styling(font_size = 10, html_font = "arial", bootstrap_options = "striped")
+  make_tabe() 
 ```
 
 The function
