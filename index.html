@@ -8,7 +8,7 @@
 
 <meta name="author" content="Andreas Eich">
 
-<title>Logger - Logger Package Test 11:00</title>
+<title>Logger - Logger Package</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -137,7 +137,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Logger Package Test 11:00</h1>
+<h1 class="title">Logger Package</h1>
 </div>
 
 
@@ -154,7 +154,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">22.06.2023</p>
+      <p class="date">23.06.2023</p>
     </div>
   </div>
   
@@ -167,7 +167,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="description" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="description"><span class="header-section-number">1</span> Description</h2>
 <p>This package helps to import Hobo logger files into R. Currenltly supported are the <em>Pendant</em> temperature and temperature and light intensity loggers and the <em>Temperature Pro V2</em>. The package can be used to combine logger data from multiple deployments at different sites and filters the data using the time of deployment and retrieval. Basic plotting allows error checking.</p>
-<p>The current version of the package is 0.1 and was published on 21.06.2023.</p>
+<p>The current version of the package is 0.1 and was published on 22.06.2023.</p>
 </section>
 <section id="prerequisites" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="prerequisites"><span class="header-section-number">2</span> Prerequisites</h2>
@@ -589,16 +589,194 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 data-number="4.4" class="anchored" data-anchor-id="import-logger-.csv-files"><span class="header-section-number">4.4</span> Import logger <code>.csv</code> files</h3>
 <p>Now, the actual data can be imported. To do so, <code>loggerinfo</code>, that was just imported, has to be provided to the <code>read_loggerfiles()</code> function:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_loggerfiles</span>(loggerinfo, <span class="at">check_SN =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>loggerdata <span class="ot">&lt;-</span> <span class="fu">read_loggerfiles</span>(loggerinfo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ 2023_06_16_E2B_deep_1.csv
+• removed 58 of 2619 rows (2.2%)
+✔ Read 1 of 9 files.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ 2023_06_16_E2B_shallow_2.csv
+• removed 58 of 2257 rows (2.6%)
+✔ Read 2 of 9 files.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ 2023_06_19_Temae_deep_1.csv
+• removed 10 of 2475 rows (0.4%)
+✔ Read 3 of 9 files.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ 2023_06_19_Temae_deep_2.csv
+• removed 10 of 2475 rows (0.4%)
+✔ Read 4 of 9 files.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ 2023_06_19_Temae_deep.csv
+• removed 7 of 2471 rows (0.3%)
+✔ Read 5 of 9 files.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ 2023_06_19_square.csv
+• removed 39 of 9889 rows (0.4%)
+✔ Read 6 of 9 files.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ 2023_06_19_Temae_shallow_1.csv
+• removed 10 of 2473 rows (0.4%)
+✔ Read 7 of 9 files.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ 2023_06_19_Temae_shallow_2.csv
+• removed 52 of 2017 rows (2.6%)
+✔ Read 8 of 9 files.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ 2023_06_19_Temae_shallow.csv
+• removed 7 of 2469 rows (0.3%)
+✔ Read 9 of 9 files.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-striped table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">date_time</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">temperature</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">light_intensity</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">SN</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">type</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">site</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">habitat</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">replicate</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">filename</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2023-03-01 15:53:26</td>
+<td style="text-align: right;">28.953</td>
+<td style="text-align: right;">258.3</td>
+<td style="text-align: right;">21086840</td>
+<td style="text-align: left;">Pendant</td>
+<td style="text-align: left;">E2B</td>
+<td style="text-align: left;">deep</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">2023_06_16_E2B_deep_1.csv</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2023-03-01 16:53:26</td>
+<td style="text-align: right;">29.053</td>
+<td style="text-align: right;">204.5</td>
+<td style="text-align: right;">21086840</td>
+<td style="text-align: left;">Pendant</td>
+<td style="text-align: left;">E2B</td>
+<td style="text-align: left;">deep</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">2023_06_16_E2B_deep_1.csv</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2023-03-01 17:53:26</td>
+<td style="text-align: right;">29.053</td>
+<td style="text-align: right;">172.2</td>
+<td style="text-align: right;">21086840</td>
+<td style="text-align: left;">Pendant</td>
+<td style="text-align: left;">E2B</td>
+<td style="text-align: left;">deep</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">2023_06_16_E2B_deep_1.csv</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2023-03-01 18:53:26</td>
+<td style="text-align: right;">29.053</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">21086840</td>
+<td style="text-align: left;">Pendant</td>
+<td style="text-align: left;">E2B</td>
+<td style="text-align: left;">deep</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">2023_06_16_E2B_deep_1.csv</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2023-03-01 19:53:26</td>
+<td style="text-align: right;">29.053</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">21086840</td>
+<td style="text-align: left;">Pendant</td>
+<td style="text-align: left;">E2B</td>
+<td style="text-align: left;">deep</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">2023_06_16_E2B_deep_1.csv</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2023-03-01 20:53:26</td>
+<td style="text-align: right;">29.053</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">21086840</td>
+<td style="text-align: left;">Pendant</td>
+<td style="text-align: left;">E2B</td>
+<td style="text-align: left;">deep</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">2023_06_16_E2B_deep_1.csv</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2023-03-01 21:53:26</td>
+<td style="text-align: right;">29.152</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">21086840</td>
+<td style="text-align: left;">Pendant</td>
+<td style="text-align: left;">E2B</td>
+<td style="text-align: left;">deep</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">2023_06_16_E2B_deep_1.csv</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2023-03-01 22:53:26</td>
+<td style="text-align: right;">29.053</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">21086840</td>
+<td style="text-align: left;">Pendant</td>
+<td style="text-align: left;">E2B</td>
+<td style="text-align: left;">deep</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">2023_06_16_E2B_deep_1.csv</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2023-03-01 23:53:26</td>
+<td style="text-align: right;">29.053</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">21086840</td>
+<td style="text-align: left;">Pendant</td>
+<td style="text-align: left;">E2B</td>
+<td style="text-align: left;">deep</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">2023_06_16_E2B_deep_1.csv</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2023-03-02 00:53:26</td>
+<td style="text-align: right;">29.152</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">21086840</td>
+<td style="text-align: left;">Pendant</td>
+<td style="text-align: left;">E2B</td>
+<td style="text-align: left;">deep</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">2023_06_16_E2B_deep_1.csv</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
 </div>
 <p>The function</p>
 <p>If you did not use the serial number (SN) in <code>loggerinfo</code> or do not want to chack the SN provided in <code>loggerinfo</code> against the SN stored in the logger <code>.csv</code> file, set <code>check_SN</code> to <code>FALSE</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_loggerfiles</span>(loggerinfo, <span class="at">check_SN =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_loggerfiles</span>(loggerinfo, <span class="at">check_SN =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>If your logger <code>.csv</code> files are not stored in <code>/data/raw_csv</code>, you have to specify the folder:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_loggerfiles</span>(loggerinfo, <span class="at">folder =</span> <span class="st">"your_folder"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_loggerfiles</span>(loggerinfo, <span class="at">folder =</span> <span class="st">"your_folder"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
