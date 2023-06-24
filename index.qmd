@@ -7,7 +7,7 @@ date-format: "DD.MM.YYYY"
 
 ## Description
 
-This package helps to import Hobo logger files into R. Currently supported are the *Pendant* temperature and temperature and light intensity loggers and the *Temperature Pro V2*. The package can be used to combine logger data from multiple deployments at different sites and filters the data using the time of deployment and retrieval. Basic plotting allows error checking.
+This small package helps to import Hobo logger files into R. Currently supported are the *Pendant* temperature and temperature and light intensity loggers and the *Temperature Pro V2*. The package can be used to combine logger data from multiple deployments at different sites and filters the data using the time of deployment and retrieval. Basic plotting allows error checking.
 
 In summary, an Excel table is used to store logger metadata as the file name, site name and depths as well as the time of deployment and retrieval. Each logger file is imported, cleaned, and merged to a standardised table.
 
