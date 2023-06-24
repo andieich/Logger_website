@@ -34,7 +34,7 @@ make_table <- function(data,
   gt(data) %>% 
   opt_stylize(style = 6, 
               color = 'gray') %>% 
-  tab_options(table.font.size = 10, 
+  tab_options(table.font.size = 12, 
               table.font.names = "helvetica", 
               table_body.border.top.width  = .1,  
               table_body.border.bottom.width = .1,
