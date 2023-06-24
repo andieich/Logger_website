@@ -18,7 +18,7 @@ format:
     toc: true
     toc-location: left
     toc-title: "Content"
-    mainfont: "Gill Sans"
+    mainfont: "Helvetica"
   
 number-sections: true
 editor: visual

@@ -7,41 +7,95 @@ date-format: "DD.MM.YYYY"
 
 ## Description
 
-This package helps to import Hobo logger files into R. Currenltly supported are the *Pendant* temperature and temperature and light intensity loggers and the *Temperature Pro V2*. The package can be used to combine logger data from multiple deployments at different sites and filters the data using the time of deployment and retrieval. Basic plotting allows error checking.
+This package helps to import Hobo logger files into R. Currently supported are the *Pendant* temperature and temperature and light intensity loggers and the *Temperature Pro V2*. The package can be used to combine logger data from multiple deployments at different sites and filters the data using the time of deployment and retrieval. Basic plotting allows error checking.
 
-The current version of the package is 0.1 and was published on 22.06.2023.
+In summary, an Excel table is used to store logger metadata as the file name, site name and depths as well as the time of deployment and retrieval. Each logger file is imported, cleaned, and merged to a standardised table.
+
+The current version of the package is 0.1 and was published on 23.06.2023.
 
 ## Prerequisites
 
 ### File Export
 
-The `.hobo` files have to be exported to `.csv` using [HOBOware](https://www.onsetcomp.com/support/help-center/software/hoboware "HOBOware download"). With the paid version HOBOware Pro it is possible to bulk export multiple `.hobo` files (`Tools` \> `Bulk File Export`) . The export settings can be changed in the HOBOware settings in the "General" tab in "Export settings" and have to be as follows:
+The `.hobo` files have to be exported as `.csv` using [HOBOware](https://www.onsetcomp.com/support/help-center/software/hoboware "HOBOware download"). With the paid version HOBOware Pro it is possible to bulk export multiple `.hobo` files (`Tools` \> `Bulk File Export`). The export settings can be changed in the HOBOware settings in the "General" tab in "Export settings" and have to be as follows:
 
-| Name                                                       | Setting               |
-|------------------------------------------------------------|-----------------------|
-| Export file type                                           | `Text (.txt or .csv)` |
-| Export table data column separator                         | `Comma (,)`           |
-| Include line number column                                 | `No`                  |
-| Include plot title in header                               | `No`                  |
-| Always show fractional seconds                             | `No`                  |
-| Separate date and time into two columns                    | `No`                  |
-| No quotes or commas in headings, properties in parenthesis | `No`                  |
-| Include logger serial number                               | `Yes`                 |
-| Include sensor serial number or label if available         | `Yes`                 |
-| Date formal                                                | `Y M D`               |
-| Date seperator                                             | `Dash (-)`            |
-| Time format                                                | `24-Hour`             |
-| Positive number format                                     | `1,234.56`            |
-| Negative number format                                     | `-123`                |
-| Include plot details in exported file                      | `No`                  |
+```{r}
+#| echo: false
+#| output: false
+
+#silently load gt
+library(gt) # for HTML tables
+library(tidyverse)
+
+# and make own theme
+
+make_table <- function(data,
+                    ...){
+  gt(data) %>% 
+  opt_stylize(style = 6, 
+              color = 'gray') %>% 
+  tab_options(table.font.size = 10, 
+              table.font.names = "helvetica", 
+              table_body.border.top.width  = .1,  
+              table_body.border.bottom.width = .1,
+              table.border.top.width = .1,
+              table.border.bottom.width = .1) 
+}
+```
+
+```{r}
+#| echo: false
+
+hoboware_settings <- data.frame(
+  "Name" = c("Export file type",
+             "Export table data column separator",
+             "Include line number column",
+             "Include plot title in header",
+             "Always show fractional seconds",
+             "Separate date and time into two columns",
+             "No quotes or commas in headings, properties in parenthesis",
+             "Include logger serial number",
+             "Include sensor serial number or label if available",
+             "Date format",
+             "Date seperator",
+             "Time format",
+             "Positive number format",
+             "Negative number format",
+             "Include plot details in exported file"),
+  "Setting" = c("Text (.txt or .csv)",
+               "Comma (,)",
+               "No",
+               "No",
+               "No",
+               "No",
+               "No",
+               "Yes",
+               "Yes",
+               "Y M D",
+               "Dash (-)",
+               "24-Hour",
+               "1,234.56",
+               "-123",
+               "No")
+)
+
+
+hoboware_settings %>% 
+  make_table() %>% 
+  tab_options(table.font.size = 12)
+  
+
+```
 
 Additionally, the computer language has to be English and HOBOware has to use SI units.
 
-I store the exported `.csv` files in the RStudio project folder under `/data/raw_csv`. I recommend to also keep a copy of the original `.hobo` files, e.g. under `/data/raw_hobo`.
+I store the exported `.csv` files in the RStudio project folder under `/data/raw_csv`. I also keep a copy of the original `.hobo` files under `/data/raw_hobo`.
 
 ### Logger Metadata
 
-An Excel table can be used to store information about the logger, e.g. to which site it was deployed, at what depth, and when it was deployed and retrieved. [Here](logger_info_example.xlsx) is an example for such a table. This file contains two tabs: `active` for the loggers that are currently deployed and `retrieved` for the loggers that were already retrieved. Necessary columns are
+An Excel table is used to store information about the logger, e.g. to which site it was deployed, at what depth, and when it was deployed and retrieved. [Here](https://raw.githubusercontent.com/andieich/Logger_website/main/data/logger_info.xlsx) is an example for such a table.
+
+Necessary columns are
 
 -   `filename`: The file name of the `.csv` file. I add the date of the retrieval before the label that was set in HOBOware, e.g. `2023_06_01_Site1_Depth2.csv`.
 
@@ -49,7 +103,7 @@ An Excel table can be used to store information about the logger, e.g. to which 
 
 -   `retrieved`: Date and time of the retrieval of the logger. The cell format should be as for `deployed`.
 
-The other information is optional but adding the site name, depth, battery state, logged parameters, logging interval, etc. will help to keep track of the loggers. Additionally, I use the logger serial number (column `SN`) as an ID.
+The other information is optional but adding the site name, depth, battery state, logged parameters, logging interval, etc. will help to keep track of the loggers. Additionally, I use the logger serial number (column `SN`). All additional columns can later be added to the logger data.
 
 I store this Excel file in the RStudio project folder under `/data`.
 
@@ -76,11 +130,11 @@ library(Logger)
 
 ### Summary
 
-In short, the logger metadata from the Excel file is used to import all logger `.csv` files, filter the data by the time of deployment and retrieval and adds the additional metadata, e.g. site name, depth, etc. All imported files will be combined to a `data.frame` in the "long" format so it can be easily used with e.g. `ggplot()`. Finally, some ways to visualize and summarize the data are shown.
+In short, the logger metadata from the Excel file is used to import all logger `.csv` files, filter the data by the time of deployment and retrieval and adds the additional metadata, e.g. site name, depth, etc. All imported files will be combined to a `data.frame` in the "long" format so it can be easily used with e.g. `ggplot()`. Finally, some ways to summarise and visualise the data are shown.
 
 ### Load packages
 
-These packages will be used in this example:
+These additional packages will be used in this example:
 
 ```{r}
 #| output: false
@@ -88,25 +142,6 @@ These packages will be used in this example:
 library(tidyverse)  # for dplyr, ggplot, magrittr, etc.
 library(lubridate)  # to facilitate date formatting
 library(here)       # for relative file paths
-```
-
-```{r}
-#| echo: false
-#| output: false
-
-#silently load gt
-library(gt) # for HTML tables
-
-# and make own theme
-
-make_tabe <- function(data,
-                    ...){
-  gt(data) %>% 
-  opt_stylize(style = 6, 
-              color = 'gray') %>% 
-  tab_options(table.font.size = 10, 
-              table.font.names = "helvetica") 
-}
 ```
 
 ### Read Logger Metadata
@@ -122,48 +157,42 @@ loggerinfo <- read_loggerinfo(here::here("data/logger_info.xlsx"))
 #| echo: false
 
 head(loggerinfo, n = 3) %>% 
-  make_tabe() 
+  make_table() 
 ```
 
 The data of all loggers in this table will be imported and merged in the next step. If you want, you can therefore filter `loggerinfo`, e.g. by site
 
 ```{r}
+
 loggerinfo_sel1 <- loggerinfo %>% 
   dplyr::filter(site == "E2B")
-
 ```
 
 ```{r}
 #| echo: false
 
 head(loggerinfo_sel1, n = 3) %>% 
-  make_tabe() 
-```
-
-```{r}
-head(loggerinfo_sel1, n = 3) %>% 
-  make_tabe()
-  
+  make_table() 
 ```
 
 or by the deployment time:
 
 ```{r}
+
 loggerinfo_sel2 <- loggerinfo %>% 
   dplyr::filter(deployed >= lubridate::as_date("2023-03-08") )
-
 ```
 
 ```{r}
 #| echo: false
 
 head(loggerinfo_sel2, n = 3) %>% 
-  make_tabe() 
+  make_table()
 ```
 
 ### Import logger `.csv` files
 
-Now, the actual data can be imported. To do so, `loggerinfo`, that was just imported, has to be provided to the `read_loggerfiles()` function:
+Now, the actual data can be imported. To do so, `loggerinfo`, that was just imported, has to be provided to the `read_loggerfiles()` function. During import, it is displayed how many data columns are removed due to filtering by the deployment and retrial time.
 
 ```{r}
 
@@ -173,13 +202,11 @@ loggerdata <- read_loggerfiles(loggerinfo)
 ```{r}
 #| echo: false
 
-head(loggerdata, n = 10) %>% 
-  make_tabe() 
+head(loggerdata, n = 5) %>% 
+  make_table() 
 ```
 
-The function
-
-If you did not use the serial number (SN) in `loggerinfo` or do not want to chack the SN provided in `loggerinfo` against the SN stored in the logger `.csv` file, set `check_SN` to `FALSE`:
+As a check, the function compares the serial number (SN) provided in `loggerinfo` against the SN stored in the logger `.csv` file. If this is not desired, e.g. because SN is not stored in `loggerinfo`, you can turn this check off:
 
 ```{r}
 #| eval: false
@@ -187,10 +214,97 @@ If you did not use the serial number (SN) in `loggerinfo` or do not want to chac
 read_loggerfiles(loggerinfo, check_SN = FALSE)
 ```
 
-If your logger `.csv` files are not stored in `/data/raw_csv`, you have to specify the folder:
+If your logger `.csv` files are not stored in `/data/raw_csv`, you have to specify this folder:
 
 ```{r}
 #| eval: false
 
 read_loggerfiles(loggerinfo, folder = "your_folder")
+```
+
+### Check data
+
+Now the data has to be checked. This can be useful to detect if the deployment and retrial times are actually correct (check for sudden changes).
+
+As a default, the temperature is plotted.
+
+```{r}
+#| fig-show: animate
+
+plot_all_deployments(loggerdata)
+```
+
+The plotted `parameter` can be changed to `light_intensity`:
+
+```{r}
+#| fig-show: animate
+
+plot_all_deployments(loggerdata, parameter = "light_intensity")
+```
+
+Next, the data can be summarised to the daily mean, minimum, and maximum values. This can be done with the `summarise_daily()` function. It can summarise the `temperature` and `light_intensity` data. As a default, the data is grouped by `filename` and `date`. Additional grouping can be done by adding columns to `by`.
+
+```{r}
+#| echo: false
+#| output: false
+
+# Suppress summarise info
+options(dplyr.summarise.inform = T)
+```
+
+Default settings:
+
+```{r}
+
+loggerdata_tempS <- summarise_daily(loggerdata)
+```
+
+```{r}
+#| echo: false
+ 
+head(loggerdata_tempS, n = 5) %>% 
+  as_tibble() %>% 
+  make_table() 
+```
+
+To include additional groups, use `by`, e.g.:
+
+```{r}
+
+loggerdata_tempS <- summarise_daily(loggerdata, 
+                                    by = c("site", "depth", "type", "SN"))
+```
+
+```{r}
+#| echo: false
+
+head(loggerdata_tempS, n = 5) %>% 
+  as_tibble() %>% 
+  make_table()
+```
+
+Similarly, the `light_intensty` can be summarised:
+
+```{r}
+loggerdata_lightS <- summarise_daily(loggerdata, 
+                                     by = c("site", "depth", "type", "SN"), 
+                                     parameter = "light_intensity")
+```
+
+The data can be plotted like this:
+
+```{r}
+loggerdata_tempS %>% 
+  ggplot(aes(x = date))+
+  geom_ribbon(aes(ymin = min_temperature,
+                  ymax = max_temperature,
+                  group = filename), 
+              alpha = .3)+
+  geom_line(aes(y = mean_temperature,
+                group = filename), 
+            linewidth = .1)+
+  labs(x = NULL, y = "Temperature (°C)")+
+  scale_x_date(date_labels = "%d.%m.%y")+
+  facet_grid(site ~ depth)+
+  theme_minimal()
 ```
