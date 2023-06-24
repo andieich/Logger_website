@@ -1,0 +1,4074 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="quarto-1.2.269" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+<meta name="author" content="Andreas Eich" />
+
+<title>Logger – Logger Package</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<!-- htmldependencies:E3FAD763 -->
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body>
+
+<div id="quarto-search-results"></div>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div id="quarto-toc-target"></div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Logger Package</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Andreas Eich </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">23.06.2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+<nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Content</h2>
+   
+  <ul>
+  <li><a href="#description" id="toc-description"><span class="toc-section-number">1</span> <span class="header-section-number">1</span> Description</a></li>
+  <li><a href="#prerequisites" id="toc-prerequisites"><span class="toc-section-number">2</span> <span class="header-section-number">2</span> Prerequisites</a>
+  <ul>
+  <li><a href="#file-export" id="toc-file-export"><span class="toc-section-number">2.1</span> <span class="header-section-number">2.1</span> File Export</a></li>
+  <li><a href="#logger-metadata" id="toc-logger-metadata"><span class="toc-section-number">2.2</span> <span class="header-section-number">2.2</span> Logger Metadata</a></li>
+  </ul></li>
+  <li><a href="#install-package" id="toc-install-package"><span class="toc-section-number">3</span> <span class="header-section-number">3</span> Install Package</a></li>
+  <li><a href="#use-package" id="toc-use-package"><span class="toc-section-number">4</span> <span class="header-section-number">4</span> Use Package</a>
+  <ul>
+  <li><a href="#summary" id="toc-summary"><span class="toc-section-number">4.1</span> <span class="header-section-number">4.1</span> Summary</a></li>
+  <li><a href="#load-packages" id="toc-load-packages"><span class="toc-section-number">4.2</span> <span class="header-section-number">4.2</span> Load packages</a></li>
+  <li><a href="#read-logger-metadata" id="toc-read-logger-metadata"><span class="toc-section-number">4.3</span> <span class="header-section-number">4.3</span> Read Logger Metadata</a></li>
+  <li><a href="#import-logger-.csv-files" id="toc-import-logger-.csv-files"><span class="toc-section-number">4.4</span> <span class="header-section-number">4.4</span> Import logger <code>.csv</code> files</a></li>
+  <li><a href="#check-data" id="toc-check-data"><span class="toc-section-number">4.5</span> <span class="header-section-number">4.5</span> Check data</a></li>
+  </ul></li>
+  </ul>
+</nav>
+<section id="description" class="level2" data-number="1">
+<h2 data-number="1"><span class="header-section-number">1</span> Description</h2>
+<p>This small package helps to import Hobo logger files into R. Currently supported are the <em>Pendant</em> temperature and temperature and light intensity loggers and the <em>Temperature Pro V2</em>. The package can be used to combine logger data from multiple deployments at different sites and filters the data using the time of deployment and retrieval. Basic plotting allows error checking.</p>
+<p>In summary, an Excel table is used to store logger metadata as the file name, site name and depths as well as the time of deployment and retrieval. Each logger file is imported, cleaned, and merged to a standardised table.</p>
+<p>The current version of the package is 0.1 and was published on 23.06.2023.</p>
+</section>
+<section id="prerequisites" class="level2" data-number="2">
+<h2 data-number="2"><span class="header-section-number">2</span> Prerequisites</h2>
+<section id="file-export" class="level3" data-number="2.1">
+<h3 data-number="2.1"><span class="header-section-number">2.1</span> File Export</h3>
+<p>The <code>.hobo</code> files have to be exported as <code>.csv</code> using <a href="https://www.onsetcomp.com/support/help-center/software/hoboware" title="HOBOware download">HOBOware</a>. With the paid version HOBOware Pro it is possible to bulk export multiple <code>.hobo</code> files (<code>Tools</code> &gt; <code>Bulk File Export</code>). The export settings can be changed in the HOBOware settings in the “General” tab in “Export settings” and have to be as follows:</p>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<div id="dxsmhcoqtg" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#dxsmhcoqtg table {
+  font-family: helvetica;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#dxsmhcoqtg thead, #dxsmhcoqtg tbody, #dxsmhcoqtg tfoot, #dxsmhcoqtg tr, #dxsmhcoqtg td, #dxsmhcoqtg th {
+  border-style: none;
+}
+
+#dxsmhcoqtg p {
+  margin: 0;
+  padding: 0;
+}
+
+#dxsmhcoqtg .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 12px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 0.1px;
+  border-top-color: #5F5F5F;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 0.1px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#dxsmhcoqtg .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#dxsmhcoqtg .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#dxsmhcoqtg .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#dxsmhcoqtg .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#dxsmhcoqtg .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+}
+
+#dxsmhcoqtg .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#dxsmhcoqtg .gt_col_heading {
+  color: #FFFFFF;
+  background-color: #5F5F5F;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#dxsmhcoqtg .gt_column_spanner_outer {
+  color: #FFFFFF;
+  background-color: #5F5F5F;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#dxsmhcoqtg .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#dxsmhcoqtg .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#dxsmhcoqtg .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#dxsmhcoqtg .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#dxsmhcoqtg .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#dxsmhcoqtg .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  vertical-align: middle;
+}
+
+#dxsmhcoqtg .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#dxsmhcoqtg .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#dxsmhcoqtg .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: none;
+  border-top-width: 1px;
+  border-top-color: #D5D5D5;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D5D5D5;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D5D5D5;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#dxsmhcoqtg .gt_stub {
+  color: #333333;
+  background-color: #D5D5D5;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D5D5D5;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dxsmhcoqtg .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#dxsmhcoqtg .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#dxsmhcoqtg .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#dxsmhcoqtg .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dxsmhcoqtg .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #5F5F5F;
+}
+
+#dxsmhcoqtg .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#dxsmhcoqtg .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+}
+
+#dxsmhcoqtg .gt_grand_summary_row {
+  color: #333333;
+  background-color: #D5D5D5;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dxsmhcoqtg .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #5F5F5F;
+}
+
+#dxsmhcoqtg .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #5F5F5F;
+}
+
+#dxsmhcoqtg .gt_striped {
+  background-color: #F4F4F4;
+}
+
+#dxsmhcoqtg .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 0.1px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 0.1px;
+  border-bottom-color: #5F5F5F;
+}
+
+#dxsmhcoqtg .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#dxsmhcoqtg .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dxsmhcoqtg .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#dxsmhcoqtg .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dxsmhcoqtg .gt_left {
+  text-align: left;
+}
+
+#dxsmhcoqtg .gt_center {
+  text-align: center;
+}
+
+#dxsmhcoqtg .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#dxsmhcoqtg .gt_font_normal {
+  font-weight: normal;
+}
+
+#dxsmhcoqtg .gt_font_bold {
+  font-weight: bold;
+}
+
+#dxsmhcoqtg .gt_font_italic {
+  font-style: italic;
+}
+
+#dxsmhcoqtg .gt_super {
+  font-size: 65%;
+}
+
+#dxsmhcoqtg .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#dxsmhcoqtg .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#dxsmhcoqtg .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#dxsmhcoqtg .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#dxsmhcoqtg .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#dxsmhcoqtg .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#dxsmhcoqtg .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Name">Name</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Setting">Setting</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="Name" class="gt_row gt_left">Export file type</td>
+<td headers="Setting" class="gt_row gt_left">Text (.txt or .csv)</td></tr>
+    <tr><td headers="Name" class="gt_row gt_left gt_striped">Export table data column separator</td>
+<td headers="Setting" class="gt_row gt_left gt_striped">Comma (,)</td></tr>
+    <tr><td headers="Name" class="gt_row gt_left">Include line number column</td>
+<td headers="Setting" class="gt_row gt_left">No</td></tr>
+    <tr><td headers="Name" class="gt_row gt_left gt_striped">Include plot title in header</td>
+<td headers="Setting" class="gt_row gt_left gt_striped">No</td></tr>
+    <tr><td headers="Name" class="gt_row gt_left">Always show fractional seconds</td>
+<td headers="Setting" class="gt_row gt_left">No</td></tr>
+    <tr><td headers="Name" class="gt_row gt_left gt_striped">Separate date and time into two columns</td>
+<td headers="Setting" class="gt_row gt_left gt_striped">No</td></tr>
+    <tr><td headers="Name" class="gt_row gt_left">No quotes or commas in headings, properties in parenthesis</td>
+<td headers="Setting" class="gt_row gt_left">No</td></tr>
+    <tr><td headers="Name" class="gt_row gt_left gt_striped">Include logger serial number</td>
+<td headers="Setting" class="gt_row gt_left gt_striped">Yes</td></tr>
+    <tr><td headers="Name" class="gt_row gt_left">Include sensor serial number or label if available</td>
+<td headers="Setting" class="gt_row gt_left">Yes</td></tr>
+    <tr><td headers="Name" class="gt_row gt_left gt_striped">Date format</td>
+<td headers="Setting" class="gt_row gt_left gt_striped">Y M D</td></tr>
+    <tr><td headers="Name" class="gt_row gt_left">Date seperator</td>
+<td headers="Setting" class="gt_row gt_left">Dash (-)</td></tr>
+    <tr><td headers="Name" class="gt_row gt_left gt_striped">Time format</td>
+<td headers="Setting" class="gt_row gt_left gt_striped">24-Hour</td></tr>
+    <tr><td headers="Name" class="gt_row gt_left">Positive number format</td>
+<td headers="Setting" class="gt_row gt_left">1,234.56</td></tr>
+    <tr><td headers="Name" class="gt_row gt_left gt_striped">Negative number format</td>
+<td headers="Setting" class="gt_row gt_left gt_striped">-123</td></tr>
+    <tr><td headers="Name" class="gt_row gt_left">Include plot details in exported file</td>
+<td headers="Setting" class="gt_row gt_left">No</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+</div>
+</div>
+<p>Additionally, the computer language has to be English and HOBOware has to use SI units.</p>
+<p>I store the exported <code>.csv</code> files in the RStudio project folder under <code>/data/raw_csv</code>. I also keep a copy of the original <code>.hobo</code> files under <code>/data/raw_hobo</code>.</p>
+</section>
+<section id="logger-metadata" class="level3" data-number="2.2">
+<h3 data-number="2.2"><span class="header-section-number">2.2</span> Logger Metadata</h3>
+<p>An Excel table is used to store information about the logger, e.g. to which site it was deployed, at what depth, and when it was deployed and retrieved. <a href="https://raw.githubusercontent.com/andieich/Logger_website/main/data/logger_info.xlsx">Here</a> is an example for such a table.</p>
+<p>Necessary columns are</p>
+<ul>
+<li><p><code>filename</code>: The file name of the <code>.csv</code> file. I add the date of the retrieval before the label that was set in HOBOware, e.g. <code>2023_06_01_Site1_Depth2.csv</code>.</p></li>
+<li><p><code>deployed</code>: Date and time of the deployment of the logger. In Excel, use “Custom” format with type <code>TT.MM.JJ hh:mm</code>.</p></li>
+<li><p><code>retrieved</code>: Date and time of the retrieval of the logger. The cell format should be as for <code>deployed</code>.</p></li>
+</ul>
+<p>The other information is optional but adding the site name, depth, battery state, logged parameters, logging interval, etc. will help to keep track of the loggers. Additionally, I use the logger serial number (column <code>SN</code>). All additional columns can later be added to the logger data.</p>
+<p>I store this Excel file in the RStudio project folder under <code>/data</code>.</p>
+</section>
+</section>
+<section id="install-package" class="level2" data-number="3">
+<h2 data-number="3"><span class="header-section-number">3</span> Install Package</h2>
+<p>This can be done with the <code>install_github()</code> function of the <code>devtools</code> package:</p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(devtools)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;andieich/Logger&quot;</span>)</span></code></pre></div>
+</div>
+<p>Now, the package can be loaded:</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Logger)</span></code></pre></div>
+</div>
+</section>
+<section id="use-package" class="level2" data-number="4">
+<h2 data-number="4"><span class="header-section-number">4</span> Use Package</h2>
+<section id="summary" class="level3" data-number="4.1">
+<h3 data-number="4.1"><span class="header-section-number">4.1</span> Summary</h3>
+<p>In short, the logger metadata from the Excel file is used to import all logger <code>.csv</code> files, filter the data by the time of deployment and retrieval and adds the additional metadata, e.g. site name, depth, etc. All imported files will be combined to a <code>data.frame</code> in the “long” format so it can be easily used with e.g. <code>ggplot()</code>. Finally, some ways to summarise and visualise the data are shown.</p>
+</section>
+<section id="load-packages" class="level3" data-number="4.2">
+<h3 data-number="4.2"><span class="header-section-number">4.2</span> Load packages</h3>
+<p>These additional packages will be used in this example:</p>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)  <span class="co"># for dplyr, ggplot, magrittr, etc.</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)  <span class="co"># to facilitate date formatting</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)       <span class="co"># for relative file paths</span></span></code></pre></div>
+</div>
+</section>
+<section id="read-logger-metadata" class="level3" data-number="4.3">
+<h3 data-number="4.3"><span class="header-section-number">4.3</span> Read Logger Metadata</h3>
+<p>The Excel file containing information on the deployment and retrieval times of the logger has to be imported to R. To do so, <code>read_loggerinfo()</code> can be used.</p>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>loggerinfo <span class="ot">&lt;-</span> <span class="fu">read_loggerinfo</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data/logger_info.xlsx&quot;</span>))</span></code></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<div id="qognqnficm" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#qognqnficm table {
+  font-family: helvetica;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#qognqnficm thead, #qognqnficm tbody, #qognqnficm tfoot, #qognqnficm tr, #qognqnficm td, #qognqnficm th {
+  border-style: none;
+}
+
+#qognqnficm p {
+  margin: 0;
+  padding: 0;
+}
+
+#qognqnficm .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 12px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 0.1px;
+  border-top-color: #5F5F5F;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 0.1px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#qognqnficm .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#qognqnficm .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#qognqnficm .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#qognqnficm .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#qognqnficm .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+}
+
+#qognqnficm .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#qognqnficm .gt_col_heading {
+  color: #FFFFFF;
+  background-color: #5F5F5F;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#qognqnficm .gt_column_spanner_outer {
+  color: #FFFFFF;
+  background-color: #5F5F5F;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#qognqnficm .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#qognqnficm .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#qognqnficm .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#qognqnficm .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#qognqnficm .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#qognqnficm .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  vertical-align: middle;
+}
+
+#qognqnficm .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#qognqnficm .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#qognqnficm .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: none;
+  border-top-width: 1px;
+  border-top-color: #D5D5D5;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D5D5D5;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D5D5D5;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#qognqnficm .gt_stub {
+  color: #333333;
+  background-color: #D5D5D5;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D5D5D5;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qognqnficm .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#qognqnficm .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#qognqnficm .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#qognqnficm .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qognqnficm .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #5F5F5F;
+}
+
+#qognqnficm .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#qognqnficm .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+}
+
+#qognqnficm .gt_grand_summary_row {
+  color: #333333;
+  background-color: #D5D5D5;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qognqnficm .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #5F5F5F;
+}
+
+#qognqnficm .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #5F5F5F;
+}
+
+#qognqnficm .gt_striped {
+  background-color: #F4F4F4;
+}
+
+#qognqnficm .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 0.1px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 0.1px;
+  border-bottom-color: #5F5F5F;
+}
+
+#qognqnficm .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#qognqnficm .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qognqnficm .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#qognqnficm .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qognqnficm .gt_left {
+  text-align: left;
+}
+
+#qognqnficm .gt_center {
+  text-align: center;
+}
+
+#qognqnficm .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#qognqnficm .gt_font_normal {
+  font-weight: normal;
+}
+
+#qognqnficm .gt_font_bold {
+  font-weight: bold;
+}
+
+#qognqnficm .gt_font_italic {
+  font-style: italic;
+}
+
+#qognqnficm .gt_super {
+  font-size: 65%;
+}
+
+#qognqnficm .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#qognqnficm .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#qognqnficm .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#qognqnficm .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#qognqnficm .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#qognqnficm .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#qognqnficm .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="SN">SN</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="type">type</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="site">site</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="depth">depth</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="replicate">replicate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Batt%">Batt%</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="BattV">BattV</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="intervall (h)">intervall (h)</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="parameters">parameters</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="started">started</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="memory full">memory full</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="name/label">name/label</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="deployed">deployed</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="spot">spot</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="retrieved">retrieved</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="battery end">battery end</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="filename">filename</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="redeployed">redeployed</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="comment">comment</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="SN" class="gt_row gt_right">21086840</td>
+<td headers="type" class="gt_row gt_left">Pendant</td>
+<td headers="site" class="gt_row gt_left">E2B</td>
+<td headers="depth" class="gt_row gt_left">deep</td>
+<td headers="replicate" class="gt_row gt_right">1</td>
+<td headers="Batt%" class="gt_row gt_left">0.83</td>
+<td headers="BattV" class="gt_row gt_right">3.06</td>
+<td headers="intervall (h)" class="gt_row gt_right">1</td>
+<td headers="parameters" class="gt_row gt_left">L, T</td>
+<td headers="started" class="gt_row gt_right">2023-03-01 10:53:00</td>
+<td headers="memory full" class="gt_row gt_right">2026-06-17 22:53:00</td>
+<td headers="name/label" class="gt_row gt_left">E2B_deep_1</td>
+<td headers="deployed" class="gt_row gt_right">2023-03-01 15:30:00</td>
+<td headers="spot" class="gt_row gt_left">2A</td>
+<td headers="retrieved" class="gt_row gt_right">2023-06-16 08:00:00</td>
+<td headers="battery end" class="gt_row gt_left">NA</td>
+<td headers="filename" class="gt_row gt_left">2023_06_16_E2B_deep_1.csv</td>
+<td headers="redeployed" class="gt_row gt_left">no</td>
+<td headers="comment" class="gt_row gt_center">NA</td></tr>
+    <tr><td headers="SN" class="gt_row gt_right gt_striped">21086844</td>
+<td headers="type" class="gt_row gt_left gt_striped">Pendant</td>
+<td headers="site" class="gt_row gt_left gt_striped">E2B</td>
+<td headers="depth" class="gt_row gt_left gt_striped">shallow</td>
+<td headers="replicate" class="gt_row gt_right gt_striped">2</td>
+<td headers="Batt%" class="gt_row gt_left gt_striped">1</td>
+<td headers="BattV" class="gt_row gt_right gt_striped">3.08</td>
+<td headers="intervall (h)" class="gt_row gt_right gt_striped">1</td>
+<td headers="parameters" class="gt_row gt_left gt_striped">L, T</td>
+<td headers="started" class="gt_row gt_right gt_striped">2023-03-16 12:53:00</td>
+<td headers="memory full" class="gt_row gt_right gt_striped">2026-07-03 00:53:00</td>
+<td headers="name/label" class="gt_row gt_left gt_striped">E2B_shallow_2</td>
+<td headers="deployed" class="gt_row gt_right gt_striped">2023-03-16 17:30:00</td>
+<td headers="spot" class="gt_row gt_left gt_striped">rebar 2</td>
+<td headers="retrieved" class="gt_row gt_right gt_striped">2023-06-16 08:00:00</td>
+<td headers="battery end" class="gt_row gt_left gt_striped">NA</td>
+<td headers="filename" class="gt_row gt_left gt_striped">2023_06_16_E2B_shallow_2.csv</td>
+<td headers="redeployed" class="gt_row gt_left gt_striped">no</td>
+<td headers="comment" class="gt_row gt_center gt_striped">NA</td></tr>
+    <tr><td headers="SN" class="gt_row gt_right">21636685</td>
+<td headers="type" class="gt_row gt_left">Pro</td>
+<td headers="site" class="gt_row gt_left">Temae</td>
+<td headers="depth" class="gt_row gt_left">deep</td>
+<td headers="replicate" class="gt_row gt_right">NA</td>
+<td headers="Batt%" class="gt_row gt_left">good</td>
+<td headers="BattV" class="gt_row gt_right">NA</td>
+<td headers="intervall (h)" class="gt_row gt_right">1</td>
+<td headers="parameters" class="gt_row gt_left">T</td>
+<td headers="started" class="gt_row gt_right">2023-03-08 13:10:00</td>
+<td headers="memory full" class="gt_row gt_right">2028-03-06 13:10:00</td>
+<td headers="name/label" class="gt_row gt_left">Temae_deep</td>
+<td headers="deployed" class="gt_row gt_right">2023-03-08 15:30:00</td>
+<td headers="spot" class="gt_row gt_left">1A</td>
+<td headers="retrieved" class="gt_row gt_right">2023-06-19 08:00:00</td>
+<td headers="battery end" class="gt_row gt_left">good</td>
+<td headers="filename" class="gt_row gt_left">2023_06_19_Temae_deep.csv</td>
+<td headers="redeployed" class="gt_row gt_left">yes</td>
+<td headers="comment" class="gt_row gt_center">NA</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+</div>
+</div>
+<p>The data of all loggers in this table will be imported and merged in the next step. If you want, you can therefore filter <code>loggerinfo</code>, e.g. by site</p>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>loggerinfo_sel1 <span class="ot">&lt;-</span> loggerinfo <span class="sc">%&gt;%</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(site <span class="sc">==</span> <span class="st">&quot;E2B&quot;</span>)</span></code></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<div id="ezqhibzgbu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ezqhibzgbu table {
+  font-family: helvetica;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#ezqhibzgbu thead, #ezqhibzgbu tbody, #ezqhibzgbu tfoot, #ezqhibzgbu tr, #ezqhibzgbu td, #ezqhibzgbu th {
+  border-style: none;
+}
+
+#ezqhibzgbu p {
+  margin: 0;
+  padding: 0;
+}
+
+#ezqhibzgbu .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 12px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 0.1px;
+  border-top-color: #5F5F5F;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 0.1px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#ezqhibzgbu .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#ezqhibzgbu .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#ezqhibzgbu .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#ezqhibzgbu .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ezqhibzgbu .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+}
+
+#ezqhibzgbu .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ezqhibzgbu .gt_col_heading {
+  color: #FFFFFF;
+  background-color: #5F5F5F;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#ezqhibzgbu .gt_column_spanner_outer {
+  color: #FFFFFF;
+  background-color: #5F5F5F;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#ezqhibzgbu .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#ezqhibzgbu .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#ezqhibzgbu .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#ezqhibzgbu .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#ezqhibzgbu .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#ezqhibzgbu .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  vertical-align: middle;
+}
+
+#ezqhibzgbu .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#ezqhibzgbu .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#ezqhibzgbu .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: none;
+  border-top-width: 1px;
+  border-top-color: #D5D5D5;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D5D5D5;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D5D5D5;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#ezqhibzgbu .gt_stub {
+  color: #333333;
+  background-color: #D5D5D5;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D5D5D5;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ezqhibzgbu .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#ezqhibzgbu .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#ezqhibzgbu .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#ezqhibzgbu .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ezqhibzgbu .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #5F5F5F;
+}
+
+#ezqhibzgbu .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#ezqhibzgbu .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+}
+
+#ezqhibzgbu .gt_grand_summary_row {
+  color: #333333;
+  background-color: #D5D5D5;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ezqhibzgbu .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #5F5F5F;
+}
+
+#ezqhibzgbu .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #5F5F5F;
+}
+
+#ezqhibzgbu .gt_striped {
+  background-color: #F4F4F4;
+}
+
+#ezqhibzgbu .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 0.1px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 0.1px;
+  border-bottom-color: #5F5F5F;
+}
+
+#ezqhibzgbu .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ezqhibzgbu .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ezqhibzgbu .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ezqhibzgbu .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ezqhibzgbu .gt_left {
+  text-align: left;
+}
+
+#ezqhibzgbu .gt_center {
+  text-align: center;
+}
+
+#ezqhibzgbu .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#ezqhibzgbu .gt_font_normal {
+  font-weight: normal;
+}
+
+#ezqhibzgbu .gt_font_bold {
+  font-weight: bold;
+}
+
+#ezqhibzgbu .gt_font_italic {
+  font-style: italic;
+}
+
+#ezqhibzgbu .gt_super {
+  font-size: 65%;
+}
+
+#ezqhibzgbu .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#ezqhibzgbu .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#ezqhibzgbu .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#ezqhibzgbu .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#ezqhibzgbu .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#ezqhibzgbu .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#ezqhibzgbu .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="SN">SN</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="type">type</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="site">site</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="depth">depth</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="replicate">replicate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Batt%">Batt%</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="BattV">BattV</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="intervall (h)">intervall (h)</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="parameters">parameters</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="started">started</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="memory full">memory full</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="name/label">name/label</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="deployed">deployed</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="spot">spot</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="retrieved">retrieved</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="battery end">battery end</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="filename">filename</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="redeployed">redeployed</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="comment">comment</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="SN" class="gt_row gt_right">21086840</td>
+<td headers="type" class="gt_row gt_left">Pendant</td>
+<td headers="site" class="gt_row gt_left">E2B</td>
+<td headers="depth" class="gt_row gt_left">deep</td>
+<td headers="replicate" class="gt_row gt_right">1</td>
+<td headers="Batt%" class="gt_row gt_right">0.83</td>
+<td headers="BattV" class="gt_row gt_right">3.06</td>
+<td headers="intervall (h)" class="gt_row gt_right">1</td>
+<td headers="parameters" class="gt_row gt_left">L, T</td>
+<td headers="started" class="gt_row gt_right">2023-03-01 10:53:00</td>
+<td headers="memory full" class="gt_row gt_right">2026-06-17 22:53:00</td>
+<td headers="name/label" class="gt_row gt_left">E2B_deep_1</td>
+<td headers="deployed" class="gt_row gt_right">2023-03-01 15:30:00</td>
+<td headers="spot" class="gt_row gt_left">2A</td>
+<td headers="retrieved" class="gt_row gt_right">2023-06-16 08:00:00</td>
+<td headers="battery end" class="gt_row gt_left">NA</td>
+<td headers="filename" class="gt_row gt_left">2023_06_16_E2B_deep_1.csv</td>
+<td headers="redeployed" class="gt_row gt_left">no</td>
+<td headers="comment" class="gt_row gt_center">NA</td></tr>
+    <tr><td headers="SN" class="gt_row gt_right gt_striped">21086844</td>
+<td headers="type" class="gt_row gt_left gt_striped">Pendant</td>
+<td headers="site" class="gt_row gt_left gt_striped">E2B</td>
+<td headers="depth" class="gt_row gt_left gt_striped">shallow</td>
+<td headers="replicate" class="gt_row gt_right gt_striped">2</td>
+<td headers="Batt%" class="gt_row gt_right gt_striped">1</td>
+<td headers="BattV" class="gt_row gt_right gt_striped">3.08</td>
+<td headers="intervall (h)" class="gt_row gt_right gt_striped">1</td>
+<td headers="parameters" class="gt_row gt_left gt_striped">L, T</td>
+<td headers="started" class="gt_row gt_right gt_striped">2023-03-16 12:53:00</td>
+<td headers="memory full" class="gt_row gt_right gt_striped">2026-07-03 00:53:00</td>
+<td headers="name/label" class="gt_row gt_left gt_striped">E2B_shallow_2</td>
+<td headers="deployed" class="gt_row gt_right gt_striped">2023-03-16 17:30:00</td>
+<td headers="spot" class="gt_row gt_left gt_striped">rebar 2</td>
+<td headers="retrieved" class="gt_row gt_right gt_striped">2023-06-16 08:00:00</td>
+<td headers="battery end" class="gt_row gt_left gt_striped">NA</td>
+<td headers="filename" class="gt_row gt_left gt_striped">2023_06_16_E2B_shallow_2.csv</td>
+<td headers="redeployed" class="gt_row gt_left gt_striped">no</td>
+<td headers="comment" class="gt_row gt_center gt_striped">NA</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+</div>
+</div>
+<p>or by the deployment time:</p>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>loggerinfo_sel2 <span class="ot">&lt;-</span> loggerinfo <span class="sc">%&gt;%</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(deployed <span class="sc">&gt;=</span> lubridate<span class="sc">::</span><span class="fu">as_date</span>(<span class="st">&quot;2023-03-08&quot;</span>) )</span></code></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<div id="tsweifvuzw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#tsweifvuzw table {
+  font-family: helvetica;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#tsweifvuzw thead, #tsweifvuzw tbody, #tsweifvuzw tfoot, #tsweifvuzw tr, #tsweifvuzw td, #tsweifvuzw th {
+  border-style: none;
+}
+
+#tsweifvuzw p {
+  margin: 0;
+  padding: 0;
+}
+
+#tsweifvuzw .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 12px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 0.1px;
+  border-top-color: #5F5F5F;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 0.1px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#tsweifvuzw .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#tsweifvuzw .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#tsweifvuzw .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#tsweifvuzw .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#tsweifvuzw .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+}
+
+#tsweifvuzw .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#tsweifvuzw .gt_col_heading {
+  color: #FFFFFF;
+  background-color: #5F5F5F;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#tsweifvuzw .gt_column_spanner_outer {
+  color: #FFFFFF;
+  background-color: #5F5F5F;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#tsweifvuzw .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#tsweifvuzw .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#tsweifvuzw .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#tsweifvuzw .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#tsweifvuzw .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#tsweifvuzw .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  vertical-align: middle;
+}
+
+#tsweifvuzw .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#tsweifvuzw .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#tsweifvuzw .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: none;
+  border-top-width: 1px;
+  border-top-color: #D5D5D5;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D5D5D5;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D5D5D5;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#tsweifvuzw .gt_stub {
+  color: #333333;
+  background-color: #D5D5D5;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D5D5D5;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tsweifvuzw .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#tsweifvuzw .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#tsweifvuzw .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#tsweifvuzw .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tsweifvuzw .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #5F5F5F;
+}
+
+#tsweifvuzw .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#tsweifvuzw .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+}
+
+#tsweifvuzw .gt_grand_summary_row {
+  color: #333333;
+  background-color: #D5D5D5;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tsweifvuzw .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #5F5F5F;
+}
+
+#tsweifvuzw .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #5F5F5F;
+}
+
+#tsweifvuzw .gt_striped {
+  background-color: #F4F4F4;
+}
+
+#tsweifvuzw .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 0.1px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 0.1px;
+  border-bottom-color: #5F5F5F;
+}
+
+#tsweifvuzw .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#tsweifvuzw .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tsweifvuzw .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#tsweifvuzw .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tsweifvuzw .gt_left {
+  text-align: left;
+}
+
+#tsweifvuzw .gt_center {
+  text-align: center;
+}
+
+#tsweifvuzw .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#tsweifvuzw .gt_font_normal {
+  font-weight: normal;
+}
+
+#tsweifvuzw .gt_font_bold {
+  font-weight: bold;
+}
+
+#tsweifvuzw .gt_font_italic {
+  font-style: italic;
+}
+
+#tsweifvuzw .gt_super {
+  font-size: 65%;
+}
+
+#tsweifvuzw .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#tsweifvuzw .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#tsweifvuzw .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#tsweifvuzw .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#tsweifvuzw .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#tsweifvuzw .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#tsweifvuzw .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="SN">SN</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="type">type</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="site">site</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="depth">depth</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="replicate">replicate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Batt%">Batt%</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="BattV">BattV</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="intervall (h)">intervall (h)</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="parameters">parameters</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="started">started</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="memory full">memory full</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="name/label">name/label</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="deployed">deployed</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="spot">spot</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="retrieved">retrieved</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="battery end">battery end</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="filename">filename</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="redeployed">redeployed</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="comment">comment</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="SN" class="gt_row gt_right">21086844</td>
+<td headers="type" class="gt_row gt_left">Pendant</td>
+<td headers="site" class="gt_row gt_left">E2B</td>
+<td headers="depth" class="gt_row gt_left">shallow</td>
+<td headers="replicate" class="gt_row gt_right">2</td>
+<td headers="Batt%" class="gt_row gt_left">1</td>
+<td headers="BattV" class="gt_row gt_right">3.08</td>
+<td headers="intervall (h)" class="gt_row gt_right">1</td>
+<td headers="parameters" class="gt_row gt_left">L, T</td>
+<td headers="started" class="gt_row gt_right">2023-03-16 12:53:00</td>
+<td headers="memory full" class="gt_row gt_right">2026-07-03 00:53:00</td>
+<td headers="name/label" class="gt_row gt_left">E2B_shallow_2</td>
+<td headers="deployed" class="gt_row gt_right">2023-03-16 17:30:00</td>
+<td headers="spot" class="gt_row gt_left">rebar 2</td>
+<td headers="retrieved" class="gt_row gt_right">2023-06-16 08:00:00</td>
+<td headers="battery end" class="gt_row gt_left">NA</td>
+<td headers="filename" class="gt_row gt_left">2023_06_16_E2B_shallow_2.csv</td>
+<td headers="redeployed" class="gt_row gt_left">no</td>
+<td headers="comment" class="gt_row gt_center">NA</td></tr>
+    <tr><td headers="SN" class="gt_row gt_right gt_striped">21636685</td>
+<td headers="type" class="gt_row gt_left gt_striped">Pro</td>
+<td headers="site" class="gt_row gt_left gt_striped">Temae</td>
+<td headers="depth" class="gt_row gt_left gt_striped">deep</td>
+<td headers="replicate" class="gt_row gt_right gt_striped">NA</td>
+<td headers="Batt%" class="gt_row gt_left gt_striped">good</td>
+<td headers="BattV" class="gt_row gt_right gt_striped">NA</td>
+<td headers="intervall (h)" class="gt_row gt_right gt_striped">1</td>
+<td headers="parameters" class="gt_row gt_left gt_striped">T</td>
+<td headers="started" class="gt_row gt_right gt_striped">2023-03-08 13:10:00</td>
+<td headers="memory full" class="gt_row gt_right gt_striped">2028-03-06 13:10:00</td>
+<td headers="name/label" class="gt_row gt_left gt_striped">Temae_deep</td>
+<td headers="deployed" class="gt_row gt_right gt_striped">2023-03-08 15:30:00</td>
+<td headers="spot" class="gt_row gt_left gt_striped">1A</td>
+<td headers="retrieved" class="gt_row gt_right gt_striped">2023-06-19 08:00:00</td>
+<td headers="battery end" class="gt_row gt_left gt_striped">good</td>
+<td headers="filename" class="gt_row gt_left gt_striped">2023_06_19_Temae_deep.csv</td>
+<td headers="redeployed" class="gt_row gt_left gt_striped">yes</td>
+<td headers="comment" class="gt_row gt_center gt_striped">NA</td></tr>
+    <tr><td headers="SN" class="gt_row gt_right">21636679</td>
+<td headers="type" class="gt_row gt_left">Pro</td>
+<td headers="site" class="gt_row gt_left">Temae</td>
+<td headers="depth" class="gt_row gt_left">shallow</td>
+<td headers="replicate" class="gt_row gt_right">NA</td>
+<td headers="Batt%" class="gt_row gt_left">good</td>
+<td headers="BattV" class="gt_row gt_right">NA</td>
+<td headers="intervall (h)" class="gt_row gt_right">1</td>
+<td headers="parameters" class="gt_row gt_left">T</td>
+<td headers="started" class="gt_row gt_right">2023-03-08 13:10:00</td>
+<td headers="memory full" class="gt_row gt_right">2028-03-06 13:10:00</td>
+<td headers="name/label" class="gt_row gt_left">Temae_shallow</td>
+<td headers="deployed" class="gt_row gt_right">2023-03-08 17:30:00</td>
+<td headers="spot" class="gt_row gt_left">1A</td>
+<td headers="retrieved" class="gt_row gt_right">2023-06-19 08:00:00</td>
+<td headers="battery end" class="gt_row gt_left">good</td>
+<td headers="filename" class="gt_row gt_left">2023_06_19_Temae_shallow.csv</td>
+<td headers="redeployed" class="gt_row gt_left">no</td>
+<td headers="comment" class="gt_row gt_center">NA</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="import-logger-.csv-files" class="level3" data-number="4.4">
+<h3 data-number="4.4"><span class="header-section-number">4.4</span> Import logger <code>.csv</code> files</h3>
+<p>Now, the actual data can be imported. To do so, <code>loggerinfo</code>, that was just imported, has to be provided to the <code>read_loggerfiles()</code> function. During import, it is displayed how many data columns are removed due to filtering by the deployment and retrial time.</p>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>loggerdata <span class="ot">&lt;-</span> <span class="fu">read_loggerfiles</span>(loggerinfo)</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ 2023_06_16_E2B_deep_1.csv
+• removed 58 of 2619 rows (2.2%)
+✔ Read 1 of 4 files.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ 2023_06_16_E2B_shallow_2.csv
+• removed 58 of 2257 rows (2.6%)
+✔ Read 2 of 4 files.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ 2023_06_19_Temae_deep.csv
+• removed 7 of 2471 rows (0.3%)
+✔ Read 3 of 4 files.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ 2023_06_19_Temae_shallow.csv
+• removed 7 of 2469 rows (0.3%)
+✔ Read 4 of 4 files.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<div id="kzzqdbykvd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#kzzqdbykvd table {
+  font-family: helvetica;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#kzzqdbykvd thead, #kzzqdbykvd tbody, #kzzqdbykvd tfoot, #kzzqdbykvd tr, #kzzqdbykvd td, #kzzqdbykvd th {
+  border-style: none;
+}
+
+#kzzqdbykvd p {
+  margin: 0;
+  padding: 0;
+}
+
+#kzzqdbykvd .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 12px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 0.1px;
+  border-top-color: #5F5F5F;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 0.1px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#kzzqdbykvd .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#kzzqdbykvd .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#kzzqdbykvd .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#kzzqdbykvd .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#kzzqdbykvd .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+}
+
+#kzzqdbykvd .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#kzzqdbykvd .gt_col_heading {
+  color: #FFFFFF;
+  background-color: #5F5F5F;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#kzzqdbykvd .gt_column_spanner_outer {
+  color: #FFFFFF;
+  background-color: #5F5F5F;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#kzzqdbykvd .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#kzzqdbykvd .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#kzzqdbykvd .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#kzzqdbykvd .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#kzzqdbykvd .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#kzzqdbykvd .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  vertical-align: middle;
+}
+
+#kzzqdbykvd .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#kzzqdbykvd .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#kzzqdbykvd .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: none;
+  border-top-width: 1px;
+  border-top-color: #D5D5D5;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D5D5D5;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D5D5D5;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#kzzqdbykvd .gt_stub {
+  color: #333333;
+  background-color: #D5D5D5;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D5D5D5;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kzzqdbykvd .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#kzzqdbykvd .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#kzzqdbykvd .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#kzzqdbykvd .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kzzqdbykvd .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #5F5F5F;
+}
+
+#kzzqdbykvd .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#kzzqdbykvd .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+}
+
+#kzzqdbykvd .gt_grand_summary_row {
+  color: #333333;
+  background-color: #D5D5D5;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kzzqdbykvd .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #5F5F5F;
+}
+
+#kzzqdbykvd .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #5F5F5F;
+}
+
+#kzzqdbykvd .gt_striped {
+  background-color: #F4F4F4;
+}
+
+#kzzqdbykvd .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 0.1px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 0.1px;
+  border-bottom-color: #5F5F5F;
+}
+
+#kzzqdbykvd .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#kzzqdbykvd .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kzzqdbykvd .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#kzzqdbykvd .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kzzqdbykvd .gt_left {
+  text-align: left;
+}
+
+#kzzqdbykvd .gt_center {
+  text-align: center;
+}
+
+#kzzqdbykvd .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#kzzqdbykvd .gt_font_normal {
+  font-weight: normal;
+}
+
+#kzzqdbykvd .gt_font_bold {
+  font-weight: bold;
+}
+
+#kzzqdbykvd .gt_font_italic {
+  font-style: italic;
+}
+
+#kzzqdbykvd .gt_super {
+  font-size: 65%;
+}
+
+#kzzqdbykvd .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#kzzqdbykvd .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#kzzqdbykvd .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#kzzqdbykvd .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#kzzqdbykvd .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#kzzqdbykvd .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#kzzqdbykvd .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="date_time">date_time</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="temperature">temperature</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="light_intensity">light_intensity</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="SN">SN</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="type">type</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="site">site</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="depth">depth</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="filename">filename</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="date_time" class="gt_row gt_right">2023-03-01 15:53:26</td>
+<td headers="temperature" class="gt_row gt_right">28.953</td>
+<td headers="light_intensity" class="gt_row gt_right">258.3</td>
+<td headers="SN" class="gt_row gt_right">21086840</td>
+<td headers="type" class="gt_row gt_left">Pendant</td>
+<td headers="site" class="gt_row gt_left">E2B</td>
+<td headers="depth" class="gt_row gt_left">deep</td>
+<td headers="filename" class="gt_row gt_left">2023_06_16_E2B_deep_1.csv</td></tr>
+    <tr><td headers="date_time" class="gt_row gt_right gt_striped">2023-03-01 16:53:26</td>
+<td headers="temperature" class="gt_row gt_right gt_striped">29.053</td>
+<td headers="light_intensity" class="gt_row gt_right gt_striped">204.5</td>
+<td headers="SN" class="gt_row gt_right gt_striped">21086840</td>
+<td headers="type" class="gt_row gt_left gt_striped">Pendant</td>
+<td headers="site" class="gt_row gt_left gt_striped">E2B</td>
+<td headers="depth" class="gt_row gt_left gt_striped">deep</td>
+<td headers="filename" class="gt_row gt_left gt_striped">2023_06_16_E2B_deep_1.csv</td></tr>
+    <tr><td headers="date_time" class="gt_row gt_right">2023-03-01 17:53:26</td>
+<td headers="temperature" class="gt_row gt_right">29.053</td>
+<td headers="light_intensity" class="gt_row gt_right">172.2</td>
+<td headers="SN" class="gt_row gt_right">21086840</td>
+<td headers="type" class="gt_row gt_left">Pendant</td>
+<td headers="site" class="gt_row gt_left">E2B</td>
+<td headers="depth" class="gt_row gt_left">deep</td>
+<td headers="filename" class="gt_row gt_left">2023_06_16_E2B_deep_1.csv</td></tr>
+    <tr><td headers="date_time" class="gt_row gt_right gt_striped">2023-03-01 18:53:26</td>
+<td headers="temperature" class="gt_row gt_right gt_striped">29.053</td>
+<td headers="light_intensity" class="gt_row gt_right gt_striped">0.0</td>
+<td headers="SN" class="gt_row gt_right gt_striped">21086840</td>
+<td headers="type" class="gt_row gt_left gt_striped">Pendant</td>
+<td headers="site" class="gt_row gt_left gt_striped">E2B</td>
+<td headers="depth" class="gt_row gt_left gt_striped">deep</td>
+<td headers="filename" class="gt_row gt_left gt_striped">2023_06_16_E2B_deep_1.csv</td></tr>
+    <tr><td headers="date_time" class="gt_row gt_right">2023-03-01 19:53:26</td>
+<td headers="temperature" class="gt_row gt_right">29.053</td>
+<td headers="light_intensity" class="gt_row gt_right">0.0</td>
+<td headers="SN" class="gt_row gt_right">21086840</td>
+<td headers="type" class="gt_row gt_left">Pendant</td>
+<td headers="site" class="gt_row gt_left">E2B</td>
+<td headers="depth" class="gt_row gt_left">deep</td>
+<td headers="filename" class="gt_row gt_left">2023_06_16_E2B_deep_1.csv</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+</div>
+</div>
+<p>As a check, the function compares the serial number (SN) provided in <code>loggerinfo</code> against the SN stored in the logger <code>.csv</code> file. If this is not desired, e.g. because SN is not stored in <code>loggerinfo</code>, you can turn this check off:</p>
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_loggerfiles</span>(loggerinfo, <span class="at">check_SN =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+</div>
+<p>If your logger <code>.csv</code> files are not stored in <code>/data/raw_csv</code>, you have to specify this folder:</p>
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_loggerfiles</span>(loggerinfo, <span class="at">folder =</span> <span class="st">&quot;your_folder&quot;</span>)</span></code></pre></div>
+</div>
+</section>
+<section id="check-data" class="level3" data-number="4.5">
+<h3 data-number="4.5"><span class="header-section-number">4.5</span> Check data</h3>
+<p>Now the data has to be checked. This can be useful to detect if the deployment and retrial times are actually correct (check for sudden changes).</p>
+<p>As a default, the temperature is plotted.</p>
+<div class="cell" data-animation.hook="gifski">
+<div class="sourceCode" id="cb14"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_all_deployments</span>(loggerdata)</span></code></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-16-.gif" class="img-fluid" width="672" /></p>
+</div>
+</div>
+<p>The plotted <code>parameter</code> can be changed to <code>light_intensity</code>:</p>
+<div class="cell" data-animation.hook="gifski">
+<div class="sourceCode" id="cb15"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_all_deployments</span>(loggerdata, <span class="at">parameter =</span> <span class="st">&quot;light_intensity&quot;</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-17-.gif" class="img-fluid" width="672" /></p>
+</div>
+</div>
+<p>Next, the data can be summarised to the daily mean, minimum, and maximum values. This can be done with the <code>summarise_daily()</code> function. It can summarise the <code>temperature</code> and <code>light_intensity</code> data. As a default, the data is grouped by <code>filename</code> and <code>date</code>. Additional grouping can be done by adding columns to <code>by</code>.</p>
+<div class="cell">
+
+</div>
+<p>Default settings:</p>
+<div class="cell">
+<div class="sourceCode" id="cb16"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>loggerdata_tempS <span class="ot">&lt;-</span> <span class="fu">summarise_daily</span>(loggerdata)</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by &#39;date&#39;. You can override using the
+`.groups` argument.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<div id="qixpmfdbdn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#qixpmfdbdn table {
+  font-family: helvetica;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#qixpmfdbdn thead, #qixpmfdbdn tbody, #qixpmfdbdn tfoot, #qixpmfdbdn tr, #qixpmfdbdn td, #qixpmfdbdn th {
+  border-style: none;
+}
+
+#qixpmfdbdn p {
+  margin: 0;
+  padding: 0;
+}
+
+#qixpmfdbdn .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 12px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 0.1px;
+  border-top-color: #5F5F5F;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 0.1px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#qixpmfdbdn .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#qixpmfdbdn .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#qixpmfdbdn .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#qixpmfdbdn .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#qixpmfdbdn .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+}
+
+#qixpmfdbdn .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#qixpmfdbdn .gt_col_heading {
+  color: #FFFFFF;
+  background-color: #5F5F5F;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#qixpmfdbdn .gt_column_spanner_outer {
+  color: #FFFFFF;
+  background-color: #5F5F5F;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#qixpmfdbdn .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#qixpmfdbdn .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#qixpmfdbdn .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#qixpmfdbdn .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#qixpmfdbdn .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#qixpmfdbdn .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  vertical-align: middle;
+}
+
+#qixpmfdbdn .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#qixpmfdbdn .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#qixpmfdbdn .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: none;
+  border-top-width: 1px;
+  border-top-color: #D5D5D5;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D5D5D5;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D5D5D5;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#qixpmfdbdn .gt_stub {
+  color: #333333;
+  background-color: #D5D5D5;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D5D5D5;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qixpmfdbdn .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#qixpmfdbdn .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#qixpmfdbdn .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#qixpmfdbdn .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qixpmfdbdn .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #5F5F5F;
+}
+
+#qixpmfdbdn .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#qixpmfdbdn .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+}
+
+#qixpmfdbdn .gt_grand_summary_row {
+  color: #333333;
+  background-color: #D5D5D5;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qixpmfdbdn .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #5F5F5F;
+}
+
+#qixpmfdbdn .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #5F5F5F;
+}
+
+#qixpmfdbdn .gt_striped {
+  background-color: #F4F4F4;
+}
+
+#qixpmfdbdn .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 0.1px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 0.1px;
+  border-bottom-color: #5F5F5F;
+}
+
+#qixpmfdbdn .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#qixpmfdbdn .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qixpmfdbdn .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#qixpmfdbdn .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qixpmfdbdn .gt_left {
+  text-align: left;
+}
+
+#qixpmfdbdn .gt_center {
+  text-align: center;
+}
+
+#qixpmfdbdn .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#qixpmfdbdn .gt_font_normal {
+  font-weight: normal;
+}
+
+#qixpmfdbdn .gt_font_bold {
+  font-weight: bold;
+}
+
+#qixpmfdbdn .gt_font_italic {
+  font-style: italic;
+}
+
+#qixpmfdbdn .gt_super {
+  font-size: 65%;
+}
+
+#qixpmfdbdn .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#qixpmfdbdn .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#qixpmfdbdn .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#qixpmfdbdn .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#qixpmfdbdn .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#qixpmfdbdn .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#qixpmfdbdn .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="date">date</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="filename">filename</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="mean_temperature">mean_temperature</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="min_temperature">min_temperature</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="max_temperature">max_temperature</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="date" class="gt_row gt_right">2023-03-01</td>
+<td headers="filename" class="gt_row gt_left">2023_06_16_E2B_deep_1.csv</td>
+<td headers="mean_temperature" class="gt_row gt_right">29.05289</td>
+<td headers="min_temperature" class="gt_row gt_right">28.953</td>
+<td headers="max_temperature" class="gt_row gt_right">29.152</td></tr>
+    <tr><td headers="date" class="gt_row gt_right gt_striped">2023-03-02</td>
+<td headers="filename" class="gt_row gt_left gt_striped">2023_06_16_E2B_deep_1.csv</td>
+<td headers="mean_temperature" class="gt_row gt_right gt_striped">28.99508</td>
+<td headers="min_temperature" class="gt_row gt_right gt_striped">28.060</td>
+<td headers="max_temperature" class="gt_row gt_right gt_striped">29.552</td></tr>
+    <tr><td headers="date" class="gt_row gt_right">2023-03-03</td>
+<td headers="filename" class="gt_row gt_left">2023_06_16_E2B_deep_1.csv</td>
+<td headers="mean_temperature" class="gt_row gt_right">29.03208</td>
+<td headers="min_temperature" class="gt_row gt_right">28.754</td>
+<td headers="max_temperature" class="gt_row gt_right">29.252</td></tr>
+    <tr><td headers="date" class="gt_row gt_right gt_striped">2023-03-04</td>
+<td headers="filename" class="gt_row gt_left gt_striped">2023_06_16_E2B_deep_1.csv</td>
+<td headers="mean_temperature" class="gt_row gt_right gt_striped">29.11083</td>
+<td headers="min_temperature" class="gt_row gt_right gt_striped">28.853</td>
+<td headers="max_temperature" class="gt_row gt_right gt_striped">29.452</td></tr>
+    <tr><td headers="date" class="gt_row gt_right">2023-03-05</td>
+<td headers="filename" class="gt_row gt_left">2023_06_16_E2B_deep_1.csv</td>
+<td headers="mean_temperature" class="gt_row gt_right">29.04850</td>
+<td headers="min_temperature" class="gt_row gt_right">28.555</td>
+<td headers="max_temperature" class="gt_row gt_right">29.252</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+</div>
+</div>
+<p>To include additional groups, use <code>by</code>, e.g.:</p>
+<div class="cell">
+<div class="sourceCode" id="cb18"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>loggerdata_tempS <span class="ot">&lt;-</span> <span class="fu">summarise_daily</span>(loggerdata, </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;site&quot;</span>, <span class="st">&quot;depth&quot;</span>, <span class="st">&quot;type&quot;</span>, <span class="st">&quot;SN&quot;</span>))</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by &#39;date&#39;, &#39;site&#39;, &#39;depth&#39;, &#39;type&#39;, &#39;SN&#39;. You
+can override using the `.groups` argument.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<div id="judnvzmubm" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#judnvzmubm table {
+  font-family: helvetica;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#judnvzmubm thead, #judnvzmubm tbody, #judnvzmubm tfoot, #judnvzmubm tr, #judnvzmubm td, #judnvzmubm th {
+  border-style: none;
+}
+
+#judnvzmubm p {
+  margin: 0;
+  padding: 0;
+}
+
+#judnvzmubm .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 12px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 0.1px;
+  border-top-color: #5F5F5F;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 0.1px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#judnvzmubm .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#judnvzmubm .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#judnvzmubm .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#judnvzmubm .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#judnvzmubm .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+}
+
+#judnvzmubm .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#judnvzmubm .gt_col_heading {
+  color: #FFFFFF;
+  background-color: #5F5F5F;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#judnvzmubm .gt_column_spanner_outer {
+  color: #FFFFFF;
+  background-color: #5F5F5F;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#judnvzmubm .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#judnvzmubm .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#judnvzmubm .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#judnvzmubm .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#judnvzmubm .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#judnvzmubm .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  vertical-align: middle;
+}
+
+#judnvzmubm .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#judnvzmubm .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#judnvzmubm .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: none;
+  border-top-width: 1px;
+  border-top-color: #D5D5D5;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D5D5D5;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D5D5D5;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#judnvzmubm .gt_stub {
+  color: #333333;
+  background-color: #D5D5D5;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D5D5D5;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#judnvzmubm .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#judnvzmubm .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#judnvzmubm .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#judnvzmubm .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#judnvzmubm .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #5F5F5F;
+}
+
+#judnvzmubm .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#judnvzmubm .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+}
+
+#judnvzmubm .gt_grand_summary_row {
+  color: #333333;
+  background-color: #D5D5D5;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#judnvzmubm .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #5F5F5F;
+}
+
+#judnvzmubm .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #5F5F5F;
+}
+
+#judnvzmubm .gt_striped {
+  background-color: #F4F4F4;
+}
+
+#judnvzmubm .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 0.1px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 0.1px;
+  border-bottom-color: #5F5F5F;
+}
+
+#judnvzmubm .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#judnvzmubm .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#judnvzmubm .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#judnvzmubm .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#judnvzmubm .gt_left {
+  text-align: left;
+}
+
+#judnvzmubm .gt_center {
+  text-align: center;
+}
+
+#judnvzmubm .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#judnvzmubm .gt_font_normal {
+  font-weight: normal;
+}
+
+#judnvzmubm .gt_font_bold {
+  font-weight: bold;
+}
+
+#judnvzmubm .gt_font_italic {
+  font-style: italic;
+}
+
+#judnvzmubm .gt_super {
+  font-size: 65%;
+}
+
+#judnvzmubm .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#judnvzmubm .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#judnvzmubm .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#judnvzmubm .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#judnvzmubm .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#judnvzmubm .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#judnvzmubm .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="date">date</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="site">site</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="depth">depth</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="type">type</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="SN">SN</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="filename">filename</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="mean_temperature">mean_temperature</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="min_temperature">min_temperature</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="max_temperature">max_temperature</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="date" class="gt_row gt_right">2023-03-01</td>
+<td headers="site" class="gt_row gt_left">E2B</td>
+<td headers="depth" class="gt_row gt_left">deep</td>
+<td headers="type" class="gt_row gt_left">Pendant</td>
+<td headers="SN" class="gt_row gt_right">21086840</td>
+<td headers="filename" class="gt_row gt_left">2023_06_16_E2B_deep_1.csv</td>
+<td headers="mean_temperature" class="gt_row gt_right">29.05289</td>
+<td headers="min_temperature" class="gt_row gt_right">28.953</td>
+<td headers="max_temperature" class="gt_row gt_right">29.152</td></tr>
+    <tr><td headers="date" class="gt_row gt_right gt_striped">2023-03-02</td>
+<td headers="site" class="gt_row gt_left gt_striped">E2B</td>
+<td headers="depth" class="gt_row gt_left gt_striped">deep</td>
+<td headers="type" class="gt_row gt_left gt_striped">Pendant</td>
+<td headers="SN" class="gt_row gt_right gt_striped">21086840</td>
+<td headers="filename" class="gt_row gt_left gt_striped">2023_06_16_E2B_deep_1.csv</td>
+<td headers="mean_temperature" class="gt_row gt_right gt_striped">28.99508</td>
+<td headers="min_temperature" class="gt_row gt_right gt_striped">28.060</td>
+<td headers="max_temperature" class="gt_row gt_right gt_striped">29.552</td></tr>
+    <tr><td headers="date" class="gt_row gt_right">2023-03-03</td>
+<td headers="site" class="gt_row gt_left">E2B</td>
+<td headers="depth" class="gt_row gt_left">deep</td>
+<td headers="type" class="gt_row gt_left">Pendant</td>
+<td headers="SN" class="gt_row gt_right">21086840</td>
+<td headers="filename" class="gt_row gt_left">2023_06_16_E2B_deep_1.csv</td>
+<td headers="mean_temperature" class="gt_row gt_right">29.03208</td>
+<td headers="min_temperature" class="gt_row gt_right">28.754</td>
+<td headers="max_temperature" class="gt_row gt_right">29.252</td></tr>
+    <tr><td headers="date" class="gt_row gt_right gt_striped">2023-03-04</td>
+<td headers="site" class="gt_row gt_left gt_striped">E2B</td>
+<td headers="depth" class="gt_row gt_left gt_striped">deep</td>
+<td headers="type" class="gt_row gt_left gt_striped">Pendant</td>
+<td headers="SN" class="gt_row gt_right gt_striped">21086840</td>
+<td headers="filename" class="gt_row gt_left gt_striped">2023_06_16_E2B_deep_1.csv</td>
+<td headers="mean_temperature" class="gt_row gt_right gt_striped">29.11083</td>
+<td headers="min_temperature" class="gt_row gt_right gt_striped">28.853</td>
+<td headers="max_temperature" class="gt_row gt_right gt_striped">29.452</td></tr>
+    <tr><td headers="date" class="gt_row gt_right">2023-03-05</td>
+<td headers="site" class="gt_row gt_left">E2B</td>
+<td headers="depth" class="gt_row gt_left">deep</td>
+<td headers="type" class="gt_row gt_left">Pendant</td>
+<td headers="SN" class="gt_row gt_right">21086840</td>
+<td headers="filename" class="gt_row gt_left">2023_06_16_E2B_deep_1.csv</td>
+<td headers="mean_temperature" class="gt_row gt_right">29.04850</td>
+<td headers="min_temperature" class="gt_row gt_right">28.555</td>
+<td headers="max_temperature" class="gt_row gt_right">29.252</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+</div>
+</div>
+<p>Similarly, the <code>light_intensty</code> can be summarised:</p>
+<div class="cell">
+<div class="sourceCode" id="cb20"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>loggerdata_lightS <span class="ot">&lt;-</span> <span class="fu">summarise_daily</span>(loggerdata, </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;site&quot;</span>, <span class="st">&quot;depth&quot;</span>, <span class="st">&quot;type&quot;</span>, <span class="st">&quot;SN&quot;</span>), </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">parameter =</span> <span class="st">&quot;light_intensity&quot;</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by &#39;date&#39;, &#39;site&#39;, &#39;depth&#39;, &#39;type&#39;, &#39;SN&#39;. You
+can override using the `.groups` argument.</code></pre>
+</div>
+</div>
+<p>The data can be plotted like this:</p>
+<div class="cell">
+<div class="sourceCode" id="cb22"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>loggerdata_tempS <span class="sc">%&gt;%</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date))<span class="sc">+</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> min_temperature,</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">ymax =</span> max_temperature,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">group =</span> filename), </span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">alpha =</span> .<span class="dv">3</span>)<span class="sc">+</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> mean_temperature,</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">group =</span> filename), </span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">linewidth =</span> .<span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Temperature (°C)&quot;</span>)<span class="sc">+</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">date_labels =</span> <span class="st">&quot;%d.%m.%y&quot;</span>)<span class="sc">+</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(site <span class="sc">~</span> depth)<span class="sc">+</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672" /></p>
+</div>
+</div>
+<div id="quarto-navigation-envelope" class="hidden">
+<p><span class="hidden" data-render-id="quarto-int-sidebar-title">Logger</span> <span class="hidden" data-render-id="quarto-int-navbar-title">Logger</span></p>
+</div>
+<div id="quarto-meta-markdown" class="hidden">
+<p><span class="hidden" data-render-id="quarto-metatitle">Logger - Logger Package</span> <span class="hidden" data-render-id="quarto-twittercardtitle">Logger - Logger Package</span> <span class="hidden" data-render-id="quarto-ogcardtitle">Logger - Logger Package</span> <span class="hidden" data-render-id="quarto-metasitename">Logger</span></p>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id = "quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+</body>
+
+</html>
